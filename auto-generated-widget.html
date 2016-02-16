@@ -400,6 +400,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
       }
+      if(this.probingFinished)  {
+        //this is also a hack to work with existing function definitions.
+        var compositeJSONobject = new Object();
+        compositeJSONObject.x = this.xOffset;
+        compositeJSONObject.y = this.yOffset;
+        compositeJSONObject.z = this.zOffset;
+        var JSONstring = JSON.stringify(compositeJSONObject)
+        this.onAfterProbeDone(JSONstring);
+      }
     },
     onAfterProbeDone: function(probeData) {
       // probeData should be of the format
