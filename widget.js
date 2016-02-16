@@ -333,10 +333,19 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if ('r' in json && 'prb' in json.r) json = json.r;
 
       if ('prb' in json && 'e' in json.prb && 'z' in json.prb) {
+        this.zOffset = json.prb.z;
         // yes, it's data for the probe ending
 
         // now do all the final steps now that we got our data
-        this.onAfterProbeDone(json.prb);
+        //this.onAfterProbeDone(json.prb);
+      }
+      if('prb' in json && 'e' in json.prb && 'x' in json.prb) {
+        this.xOffset = json.prb.x;
+        console.log("X Offset from JSON: " + this.xOffset);
+      }
+      if('prb' in json && 'e' in json.prb && 'y' in json.prb) {
+        this.yOffset = json.prb.y;
+        console.log("Y Offset from JSON: " + this.yOffset);
       }
     },
     onAfterProbeDone: function(probeData) {
