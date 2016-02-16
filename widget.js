@@ -255,7 +255,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        id = "tp" + this.gcodeCtr++;
+        /*id = "tp" + this.gcodeCtr++;
         gcode = "G38.2 Z-20 F" + fr + "\n";
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -269,7 +269,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-
+        */
         console.log("Starting X-probing operation");
         gcode = "G38.2 X-20 F" + fr + "\n";
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
