@@ -1,3 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Widget / Super Touch Plate</title>
+
+    <!-- ChiliPeppr is based on bootstrap CSS. -->
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Customized version of require.js for ChiliPeppr. Please see require.js docs for how
+    ChiliPeppr's dependency system works as it's based on require.js. -->
+    <script type='text/javascript' src="//i2dcui.appspot.com/js/require.js"></script>
+
+    <style type='text/css'>
+#com-chilipeppr-widget-super-touchplate .panel-body {
+  padding: 0;
+  position: relative;
+  margin-bottom: -5px;
+}
+
+#com-chilipeppr-widget-super-touchplate .settings-overlay {
+  position: absolute;
+  top: 20px;
+  left: 40%;
+  bottom: 10px;
+  right: 10px;
+  border: 0px solid red;
+}
+
+#com-chilipeppr-widget-super-touchplate .input-group-addon {
+  font-size: 10px;
+}
+
+#com-chilipeppr-widget-super-touchplate .panel-footer {
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
+}
+
+#com-chilipeppr-widget-touchplate-status {
+  //overflow: auto;
+  //max-height:30px;
+  background: none;
+  background-color: #f5f5f5;
+  border: none;
+}
+
+    </style>
+
+    <script type='text/javascript'>
+    //<![CDATA[
 requirejs.config({
   paths: {
     Three: 'http://threejs.org/build/three.min.js',
@@ -76,10 +129,10 @@ cprequire_test(["inline:com-chilipeppr-widget-super-touchplate"], function(touch
 cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", 'Three'], function() {
   return {
     id: "com-chilipeppr-widget-super-touchplate",
-    url: "(auto fill by runme.js)",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
-    fiddleurl: "(auto fill by runme.js)", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
-    githuburl: "(auto fill by runme.js)", // The backing github repo
-    testurl: "(auto fill by runme.js)",   // The standalone working widget so can view it working by itself
+    url: "http://raw.githubusercontent.com/PyroAVR/widget-super-touchplate/master/auto-generated-widget.html",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
+    fiddleurl: "http://ide.c9.io/pyroavr/widget-super-touchplate", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
+    githuburl: "http://github.com/PyroAVR/widget-super-touchplate", // The backing github repo
+    testurl: "http://widget-super-touchplate-pyroavr.c9users.io/widget.html",   // The standalone working widget so can view it working by itself
     name: "Widget / Super Touch Plate",
     desc: "This widget helps you use a touch plate to find the origin on your workpiece.",
     subscribe: {},
@@ -1023,3 +1076,87 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
   }
 });
+
+    //]]>
+    </script>
+
+</head>
+
+<body>
+  <div id="com-chilipeppr-widget-super-touchplate" class="panel panel-default">
+    <div class="panel-heading">
+      <div class="btn-toolbar pull-right" role="toolbar">
+
+        <!-- <div class="btn-group">
+                  <button type="button" class="btn btn-xs btn-default lasersolder-on" data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Turn Laser On" data-content="laser-on"><span class="glyphicon glyphicon-fire"></span><span style="margin-left:-2px;opacity:0.5;" class="glyphicon glyphicon-ok"></span></button>
+                  <button type="button" class="btn btn-xs btn-default lasersolder-off" data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Turn Laser Off" data-content="laser-off"><span style="opacity:0.5" class="glyphicon glyphicon-fire"></span></button>
+              </div> -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
+        </div>
+        <div class="btn-group">
+          <div class="dropdown">
+            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <span class="panel-title" data-toggle="popover">Super Touch Plate</span> <span style="font-size:9px;" class="fb-build"></span>
+    </div>
+    <div class="panel-body">
+
+      <div class="settings-overlay">
+        <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
+
+        <p>
+          <button type="button" class="btn xbtn-xs btn-primary btn-touchplaterun" style="width:100%;">Run</button>
+        </p>
+
+        <div class="" style="text-align:right;">Feedrate to Probe</div>
+        <div class="input-group">
+          <input class="form-control frprobe" type="number" placeholder="0.00" value="25" />
+          <div class="input-group-addon">mm/min</div>
+
+        </div>
+
+        <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
+          <div class="" style="text-align:right;">X plate dimension</div>
+          <div class="input-group">
+            <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+            <div class="input-group-addon">mm</div>
+          </div>
+        </div>
+        <div style="position:relative;left:20px;top:20px" xclass="pull-right">
+          <div class="" style="text-align:right;">Y plate dimension</div>
+          <div class="input-group">
+            <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="2.00" />
+            <div class="input-group-addon">mm</div>
+          </div>
+        </div>
+        <div style="position:relative;left:20px;top:20px" xclass="pull-right">
+          <div class="" style="text-align:right;">Z plate dimension</div>
+          <div class="input-group">
+            <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="2.60" />
+            <div class="input-group-addon">mm</div>
+          </div>
+        </div>
+
+        <!-- <input type="number" class="form-control input-val z-threshold" value="1"/> -->
+        <!-- </div> -->
+      </div>
+
+    </div>
+    <div class="panel-footer hidden">
+      <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+    </div>
+  </div>
+  <div id="test-serial-port"></div>
+  <div id="test-tinyg"></div>
+  <div id="test-console"></div>
+  <div id="test-axes"></div>
+
+</body>
+
+</html>

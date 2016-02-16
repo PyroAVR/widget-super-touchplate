@@ -8,7 +8,8 @@
 // of convenient stuff for you like generate documenation, generate
 // your final auto-generated-widget.html file, and push your latest
 // changes to your backing github repo.
-
+THREE = {};
+THREE.ObjectLoader = function() {};
 var http = require('http'),
   url = require('url'),
   path = require('path'),
