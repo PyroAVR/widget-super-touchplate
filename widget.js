@@ -287,7 +287,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        runXAxis();
+        this.runXAxis();
         /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
