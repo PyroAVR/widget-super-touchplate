@@ -275,7 +275,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').addClass("btn-danger").text("Stop");
 
         // get user feedrate
-        var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+        var feedrate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
 
         // get current z
 
@@ -290,7 +290,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        this.runXAxis(fr);
+        this.runXAxis(feedrate);
         this.probingFinished = 1;
         /*
         id = "tp" + this.gcodeCtr++;
