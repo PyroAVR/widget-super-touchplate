@@ -209,7 +209,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     isRunning: false,
     runZAxis: function(fr) {
       console.log("Starting Z-probing operation");
-      id = "tp" + this.gcodeCtr++;
+      var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Z-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
         Id: id,
@@ -220,6 +220,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       console.log(this.animAxis);
     },
     runXAxis: function(fr) {
+      var id = "tp" + this.gcodeCtr++;
       console.log("Starting X-probing operation");
       gcode = "G38.2 X-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -230,6 +231,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     runYAxis: function(fr) {
+      var id = "tp" + this.gcodeCtr++;
       console.log("Starting Y-probing operation");
       gcode = "G38.2 Y-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
