@@ -344,7 +344,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           D: gcode
         });
         this.runZAxis(feedrate);
-        this.probingFinished = 1;
         /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
@@ -401,6 +400,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if ('prb' in json && 'e' in json.prb && 'z' in json.prb) {
         this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
+        this.probingFinished = 1;
         this.animInfiniteEnd();
         // yes, it's data for the probe ending
 
