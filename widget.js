@@ -76,10 +76,10 @@ cprequire_test(["inline:com-chilipeppr-widget-super-touchplate"], function(touch
 cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", 'Three'], function() {
   return {
     id: "com-chilipeppr-widget-super-touchplate",
-    url: "(auto fill by runme.js)",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
+    url: "(auto fill by runme.js)", // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
     fiddleurl: "(auto fill by runme.js)", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
     githuburl: "(auto fill by runme.js)", // The backing github repo
-    testurl: "(auto fill by runme.js)",   // The standalone working widget so can view it working by itself
+    testurl: "(auto fill by runme.js)", // The standalone working widget so can view it working by itself
     name: "Widget / Super Touch Plate",
     desc: "This widget helps you use a touch plate to find the origin on your workpiece.",
     subscribe: {},
@@ -207,14 +207,36 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
-    onRunZAxis: function(evt) {
-      
+    runZAxis: function(evt) {
+      id = "tp" + this.gcodeCtr++;
+      gcode = "G38.2 Z-20 F" + fr + "\n";
+      chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+        Id: id,
+        D: gcode
+      });
+      this.animAxis = "z";
+      this.animInfiniteStart();
+      console.log(this.animAxis);
     },
-    onRunXAxis: function(evt) {
-      
+    runXAxis: function(evt) {
+      console.log("Starting X-probing operation");
+      gcode = "G38.2 X-20 F" + fr + "\n";
+      chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+        Id: id,
+        D: gcode
+      });
+      this.animAxis = "x";
+      this.animInfiniteStart();
     },
-    onRunYAxis: function(evt) {
-      
+    runYAxis: function(evt) {
+      console.log("Starting Y-probing operation");
+      gcode = "G38.2 Y-20 F" + fr + "\n";
+      chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+        Id: id,
+        D: gcode
+      });
+      this.animAxis = "y";
+      this.animInfiniteStart();
     },
     onRun: function(evt) {
       // when user clicks the run button
@@ -239,7 +261,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
         this.isRunning = false;
 
-      } else {
+      }
+      else {
 
         // we need to run the whole darn process
         this.isRunning = true;
@@ -264,52 +287,30 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        id = "tp" + this.gcodeCtr++;
-        gcode = "G38.2 Z-20 F" + fr + "\n";
-        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        this.animAxis = "z";
-        this.animInfiniteStart();
-        console.log(this.animAxis);
+        /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
         chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode
         });
-        
-        console.log("Starting X-probing operation");
-        gcode = "G38.2 X-20 F" + fr + "\n";
-        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        this.animAxis = "x";
-        this.animInfiniteStart();
-				id = "tp" + this.gcodeCtr++;
+        */
+        /*
+        id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 X2\n";
         chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode
         });
-
-        console.log("Starting Y-probing operation");
-        gcode = "G38.2 Y-20 F" + fr + "\n";
-        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        this.animAxis = "y";
-        this.animInfiniteStart();
+        */
+        /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Y2\n";
         chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode
         });
-
+        */
       }
     },
     watchForProbeStart: function() {
@@ -348,17 +349,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         // now do all the final steps now that we got our data
         //this.onAfterProbeDone(json.prb);
       }
-      if('prb' in json && 'e' in json.prb && 'x' in json.prb) {
+      if ('prb' in json && 'e' in json.prb && 'x' in json.prb) {
         this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
         this.animInfiniteEnd();
       }
-      if('prb' in json && 'e' in json.prb && 'y' in json.prb) {
+      if ('prb' in json && 'e' in json.prb && 'y' in json.prb) {
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
         this.animInfiniteEnd();
       }
-      if(this.probingFinished)  {
+      if (this.probingFinished) {
         //this is also a hack to work with existing function definitions.
         var compositeJSONobject = new Object();
         compositeJSONObject.x = this.xOffset;
@@ -693,7 +694,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if (options) {
         options = $.parseJSON(options);
         console.log("just evaled options: ", options);
-      } else {
+      }
+      else {
         options = {
           showBody: true,
           frprobe: 25,
@@ -710,7 +712,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       // show/hide body
       if (options.showBody) {
         this.showBody();
-      } else {
+      }
+      else {
         this.hideBody();
       }
 
@@ -766,7 +769,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         if ($('#com-chilipeppr-widget-super-touchplate .panel-body').hasClass('hidden')) {
           // it's hidden, unhide
           that.showBody(evt);
-        } else {
+        }
+        else {
           // hide
           that.hideBody(evt);
         }
