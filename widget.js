@@ -266,7 +266,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
-
+        this.probingFinished = 0;
         // we need to run the whole darn process
         this.isRunning = true;
         //this.audio.play();
