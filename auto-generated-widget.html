@@ -353,9 +353,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        //Need to fix animations for touchplates.
-        // start animation showing spindle descending
-        //this.animInfiniteStart();
+
       }
     },
     watchForProbeStart: function() {
@@ -397,10 +395,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if('prb' in json && 'e' in json.prb && 'x' in json.prb) {
         this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
+        this.animInfiniteEnd();
       }
       if('prb' in json && 'e' in json.prb && 'y' in json.prb) {
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
+        this.animInfiniteEnd();
       }
       if(this.probingFinished)  {
         //this is also a hack to work with existing function definitions.
