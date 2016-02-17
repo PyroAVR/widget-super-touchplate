@@ -263,7 +263,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
         this.animAxis = "z";
         this.animInfiniteStart();
-        
+        console.log(this.animAxis);
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
         chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
