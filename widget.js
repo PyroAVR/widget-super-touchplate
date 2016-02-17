@@ -207,6 +207,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
+    onRunZAxis: function(evt) {
+      
+    },
+    onRunXAxis: function(evt) {
+      
+    },
+    onRunYAxis: function(evt) {
+      
+    },
     onRun: function(evt) {
       // when user clicks the run button
       console.log("user clicked run button. evt:", evt);
