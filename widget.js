@@ -215,7 +215,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         Id: id,
         D: gcode
       });
-      this.animAxis = "z";
+      this.runningAxis = "z";
       this.animInfiniteStart();
       console.log(this.animAxis);
     },
@@ -227,7 +227,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         Id: id,
         D: gcode
       });
-      this.animAxis = "x";
+      this.runningAxis = "x";
       this.animInfiniteStart();
     },
     runYAxis: function(fr) {
@@ -238,7 +238,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         Id: id,
         D: gcode
       });
-      this.animAxis = "y";
+      this.runningAxis = "y";
       this.animInfiniteStart();
     },
     onRun: function(evt) {
@@ -290,7 +290,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        this.runZAxis(feedrate);
+        //this.runZAxis(feedrate);
         /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
@@ -344,7 +344,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       // detect and remap
       if ('r' in json && 'prb' in json.r) json = json.r;
 
-      if ('prb' in json && 'e' in json.prb && 'z' in json.prb) {
+      if ('prb' in json && 'e' in json.prb && this.runningAxis == "z") {
         this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
         this.probingFinished = 1;
@@ -354,12 +354,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         // now do all the final steps now that we got our data
         //this.onAfterProbeDone(json.prb);
       }
-      if ('prb' in json && 'e' in json.prb && 'x' in json.prb) {
+      if ('prb' in json && 'e' in json.prb && this.runningAxis == "x") {
         this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
         this.animInfiniteEnd();
       }
-      if ('prb' in json && 'e' in json.prb && 'y' in json.prb) {
+      if ('prb' in json && 'e' in json.prb && this.runningAxis == "y") {
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
         this.animInfiniteEnd();
@@ -446,7 +446,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.isAnimInfiniteRunning = false;
     },
     animInfinite: function() {
-      if (this.animAxis == "x") {
+      if (this.runningAxis == "x") {
         this.spindle.position.setX(this.spindle.position.x - 0.3);
         if (this.spindle.position.x < -1) {
           this.spindle.position.setX(5);
@@ -455,7 +455,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       // move down the spindle
       //console.log("about to move the spindle down. this.spindle.position:", this.spindle.position);
-      if (this.animAxis == "y") {
+      if (this.runningAxis == "y") {
         this.spindle.position.setY(this.spindle.position.y - 0.3);
         if (this.spindle.position.y < -1) {
           //this.animInfiniteEnd();
@@ -464,7 +464,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         // re-render
         this.animate();
       }
-      if (this.animAxis == "z") {
+      if (this.runningAxis == "z") {
         this.spindle.position.setZ(this.spindle.position.z - 0.3);
         if (this.spindle.position.z < -1) {
           this.spindle.position.setZ(5);
