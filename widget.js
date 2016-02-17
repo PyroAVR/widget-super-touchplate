@@ -208,6 +208,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     gcodeCtr: 0,
     isRunning: false,
     runZAxis: function() {
+      console.log("Starting Z-probing operation");
       id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Z-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -288,6 +289,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           D: gcode
         });
         this.runXAxis();
+        this.probingFinished = 1;
         /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
@@ -361,6 +363,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.animInfiniteEnd();
       }
       if (this.probingFinished) {
+        $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').removeClass("btn-danger").text("Run");
         //this is also a hack to work with existing function definitions.
         var compositeJSONobject = new Object();
         compositeJSONObject.x = this.xOffset;
