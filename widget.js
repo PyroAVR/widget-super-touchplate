@@ -140,9 +140,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //this.animate();
 
       // setup run buttons
-      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.runZAxis.bind("z"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.runXAxis.bind("x"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.runYAxis.bind("y"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind("z"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind("x"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind("y"));
 
       // run intro anim
       this.introAnim();
