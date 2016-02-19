@@ -279,19 +279,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
         if(axis == "y") $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').removeClass("btn-danger").text("Run");
 
-
-        // start animation showing spindle descending
-        this.animInfiniteEnd();
-
-        this.isRunning = false;
-
       }
       else {
-        /*
         if(axis == "z") this.runZaxis();
         if(axis == "x") this.runXaxis();
         if(axis == "y") this.runYAxis();
-        */
+
         //this.audio.play();
 
         // swap button to stop
@@ -366,7 +359,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "z") {
         this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
-        this.probingFinished = 1;
         this.animInfiniteEnd();
         // yes, it's data for the probe ending
 
