@@ -139,8 +139,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $(window).resize(this.onresize.bind(this));
       //this.animate();
 
-      // setup run button
-      $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').click(this.onRun.bind(this));
+      // setup run buttons
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.runZAxis.bind(this));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.runXAxis.bind(this));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.runYAxis.bind(this));
 
       // run intro anim
       this.introAnim();
@@ -207,8 +209,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
-    runZAxis: function(fr) {
+    runZAxis: function() {
       console.log("Starting Z-probing operation");
+      //swap button to stop
+       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').addClass("btn-danger").text("Stop");
+      //get feedrate
+      var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+      
       var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Z-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -219,9 +226,14 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
       console.log(this.animAxis);
     },
-    runXAxis: function(fr) {
-      var id = "tp" + this.gcodeCtr++;
+    runXAxis: function() {
       console.log("Starting X-probing operation");
+      //swap button to stop
+       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').addClass("btn-danger").text("Stop");
+      //get feedrate
+      var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+      
+      var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 X-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
         Id: id,
@@ -230,9 +242,14 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.runningAxis = "x";
       this.animInfiniteStart();
     },
-    runYAxis: function(fr) {
-      var id = "tp" + this.gcodeCtr++;
+    runYAxis: function() {
       console.log("Starting Y-probing operation");
+      //swap button to stop
+       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').addClass("btn-danger").text("Stop");
+      //get feedrate
+      var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+      
+      var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Y-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
         Id: id,
@@ -242,8 +259,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     onRun: function(evt) {
-      // when user clicks the run button
-      console.log("user clicked run button. evt:", evt);
 
       if (this.isRunning) {
         // we need to stop
@@ -272,11 +287,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //this.audio.play();
 
         // swap button to stop
-        $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').addClass("btn-danger").text("Stop");
-
-        // get user feedrate
-        var feedrate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-
+       
         // get current z
 
         // now start watching z
@@ -290,7 +301,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        this.runZAxis(feedrate);
+        //this.runZAxis(feedrate);
         /*
         id = "tp" + this.gcodeCtr++;
         gcode = "G91 G0 Z2\n";
