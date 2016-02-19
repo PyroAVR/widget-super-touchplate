@@ -262,7 +262,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     onRun: function(axis) {
-
+      //if this is a real thing in JavaScript, that gets done in professional code, _it's time for a rewrite, folks..._
+      var that = this;
       if (this.isRunning) {
         // we need to stop
 
@@ -274,7 +275,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           D: gcode
         });
         //Stop watching for data
-        this.watchForProbeEnd();
+        that.watchForProbeEnd();
         // swap button for desired axis to stop
         if(axis == "z") $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run");
         if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
