@@ -284,6 +284,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
+        // send the probe command to start the movement
+        var id = "tp" + this.gcodeCtr++;
+        var gcode = "G21 G91 (Use mm and rel coords)\n";
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
         //start watching for data from SPJS, then run.
         this.watchForProbeStart();
         if(axis == "z") this.runZaxis();
@@ -294,14 +301,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         // now start watching z
         
 
-        // send the probe command to start the movement
-        var id = "tp" + this.gcodeCtr++;
-        //var gcode = "G21 G90 (Use mm and abs coords)\n";
-        var gcode = "G21 G91 (Use mm and rel coords)\n";
-        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
+        
         //this.runZAxis(feedrate);
         /*
         id = "tp" + this.gcodeCtr++;
