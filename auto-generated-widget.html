@@ -383,22 +383,21 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "z") {
         this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
+        $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run Z");
         this.animInfiniteEnd();
         this.isRunning = false;
-        // yes, it's data for the probe ending
-
-        // now do all the final steps now that we got our data
-        //this.onAfterProbeDone(json.prb);
       }
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "x") {
         this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
+        $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run X");
         this.animInfiniteEnd();
         this.isRunning = false;
       }
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "y") {
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
+        $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').removeClass("btn-danger").text("Run Y");
         this.animInfiniteEnd();
         this.isRunning = false;
       }
@@ -424,9 +423,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.audio.play();
 
       // turn off animation/reset buttons
-
-      // swap button to stop
-      $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').removeClass("btn-danger").text("Run");
 
       // start animation showing spindle descending
       this.animInfiniteEnd();
