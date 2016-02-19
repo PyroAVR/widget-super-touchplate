@@ -138,11 +138,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
       $(window).resize(this.onresize.bind(this));
       //this.animate();
-
+      //JS scoping is... _awful_
+      var that = this;
       // setup run buttons
-      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(that, "z"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(that, "x"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(that, "y"));
 
       // run intro anim
       this.introAnim();
