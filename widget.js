@@ -210,6 +210,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     gcodeCtr: 0,
     isRunning: false,
     runZAxis: function() {
+      this.isRunning = true;
       console.log("Starting Z-probing operation");
       //swap button to stop
        $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').addClass("btn-danger").text("Stop");
@@ -227,6 +228,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       console.log(this.animAxis);
     },
     runXAxis: function() {
+      this.isRunning = true;
       console.log("Starting X-probing operation");
       //swap button to stop
        $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').addClass("btn-danger").text("Stop");
@@ -243,6 +245,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     runYAxis: function() {
+      this.isRunning = true;
       console.log("Starting Y-probing operation");
       //swap button to stop
        $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').addClass("btn-danger").text("Stop");
@@ -469,9 +472,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //Therefore the .set[axis]() commands are changed.
       //console.log("about to move the spindle down. this.spindle.position:", this.spindle.position);
       if (this.runningAxis == "y") {
-        this.spindle.position.setY(this.spindle.position.z - 0.3);
+        this.spindle.position.setZ(this.spindle.position.z - 0.3);
         if (this.spindle.position.z < -1) {
-          //this.animInfiniteEnd();
           this.spindle.position.setZ(5);
         }
         // re-render
