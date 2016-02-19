@@ -273,9 +273,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
+        
+        // swap button for desired axis to stop
+        if(axis == "z") $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run");
+        if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
+        if(axis == "y") $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').removeClass("btn-danger").text("Run");
 
-        // swap button to stop
-        $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').removeClass("btn-danger").text("Run");
 
         // start animation showing spindle descending
         this.animInfiniteEnd();
@@ -284,9 +287,11 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
-        this.probingFinished = 0;
-        // we need to run the whole darn process
-        this.isRunning = true;
+        /*
+        if(axis == "z") this.runZaxis();
+        if(axis == "x") this.runXaxis();
+        if(axis == "y") this.runYAxis();
+        */
         //this.audio.play();
 
         // swap button to stop
