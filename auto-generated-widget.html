@@ -516,8 +516,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     animInfinite: function() {
       if (this.runningAxis == "x") {
         this.spindle.position.setX(this.spindle.position.x - 0.3);
-        if (this.spindle.position.x < -1) {
-          this.spindle.position.setX(5);
+        if (this.spindle.position.x < -5) {
+          this.spindle.position.setX(0);
         }
         this.animate();
       }
@@ -527,8 +527,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //console.log("about to move the spindle down. this.spindle.position:", this.spindle.position);
       if (this.runningAxis == "y") {
         this.spindle.position.setZ(this.spindle.position.z - 0.3);
-        if (this.spindle.position.z < -1) {
-          this.spindle.position.setZ(5);
+        if (this.spindle.position.z < -5) {
+          this.spindle.position.setZ(0);
         }
         // re-render
         this.animate();
