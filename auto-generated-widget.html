@@ -31,7 +31,6 @@
 
 #com-chilipeppr-widget-super-touchplate .input-group-addon {
   font-size: 10px;
-  width:30%;
 }
 
 #com-chilipeppr-widget-super-touchplate .panel-footer {
@@ -1171,13 +1170,30 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           <div class="input-group-addon">mm/min</div>
 
         </div>
-
-        <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
-          <div class="" style="text-align:right;">X plate dimension</div>
+        <div style="width:30%;display:inline-block;">
+          <div style="text-align:right;">Z plate dimension</div>
+            <div class="input-group">
+              <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
+              <div class="input-group-addon">mm</div>
+            </div>
+        </div>
+        <div style="width:30%;display:inline-block;">
+          <div style="text-align:right;">X plate dimension</div>
             <div class="input-group">
               <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
               <div class="input-group-addon">mm</div>
             </div>
+        </div>
+        <div style="width:25%;display:inline-block;">
+          <div style="text-align:right;">Y plate dimension</div>
+            <div class="input-group">
+              <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+              <div class="input-group-addon">mm</div>
+            </div>
+        </div>
+      <!--
+        <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
+          
             <div class="" style="text-align:right;">Y plate dimension</div>
               <div class="input-group">
               <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="2.00" />
@@ -1196,7 +1212,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
 
         </div>
-
+        -->
         <!-- <input type="number" class="form-control input-val z-threshold" value="1"/> -->
         <!-- </div> -->
       </div>
