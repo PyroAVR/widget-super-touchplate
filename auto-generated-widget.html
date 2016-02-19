@@ -327,7 +327,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           Id: id,
           D: gcode
         });
-        
+        //Stop watching for data
+        this.watchForProbeEnd();
         // swap button for desired axis to stop
         if(axis == "z") $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run");
         if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
@@ -337,18 +338,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
+        //start watching for data from SPJS, then run.
+        this.watchForProbeStart();
         if(axis == "z") this.runZaxis();
         if(axis == "x") this.runXaxis();
         if(axis == "y") this.runYAxis();
 
         //this.audio.play();
-
-        // swap button to stop
-       
-        // get current z
-
         // now start watching z
-        this.watchForProbeStart();
+        
 
         // send the probe command to start the movement
         var id = "tp" + this.gcodeCtr++;
@@ -435,7 +433,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.isRunning = false;
       }
       /*if (this.probingFinished) {
-        $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').removeClass("btn-danger").text("Run");
         //this is also a hack to work with existing function definitions.
         var compositeJSONobject = new Object();
         compositeJSONObject.x = this.xOffset;
