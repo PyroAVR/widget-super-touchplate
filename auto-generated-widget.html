@@ -18,7 +18,6 @@
   padding: 0;
   position: relative;
   margin-bottom: -5px;
-  height:100px;
 }
 
 #com-chilipeppr-widget-super-touchplate .settings-overlay {
@@ -520,20 +519,22 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.animate();
       }
       // move down the spindle
+      //This is frustrating: Gcode uses cartesian coordinates with planeXY as horizontal, and planeXZ as vertial.  Meanwhile, OpenGL uses plane XY as vertical and XZ as horizontal.
+      //Therefore the .set[axis]() commands are changed.
       //console.log("about to move the spindle down. this.spindle.position:", this.spindle.position);
       if (this.runningAxis == "y") {
-        this.spindle.position.setY(this.spindle.position.y - 0.3);
-        if (this.spindle.position.y < -1) {
+        this.spindle.position.setY(this.spindle.position.z - 0.3);
+        if (this.spindle.position.z < -1) {
           //this.animInfiniteEnd();
-          this.spindle.position.setY(5);
+          this.spindle.position.setZ(5);
         }
         // re-render
         this.animate();
       }
       if (this.runningAxis == "z") {
-        this.spindle.position.setZ(this.spindle.position.z - 0.3);
+        this.spindle.position.setY(this.spindle.position.y - 0.3);
         if (this.spindle.position.z < -1) {
-          this.spindle.position.setZ(5);
+          this.spindle.position.setY(5);
         }
         this.animate();
       }
