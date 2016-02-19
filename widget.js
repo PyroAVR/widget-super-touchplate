@@ -327,24 +327,27 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if ('r' in json && 'prb' in json.r) json = json.r;
 
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "z") {
-        this.zOffset = json.prb.z;
+        //this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
         $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run Z");
         this.animInfiniteEnd();
+        this.onAfterProbeDone(json.prb);
         this.isRunning = false;
       }
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "x") {
-        this.xOffset = json.prb.x;
+        //this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
         $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run X");
         this.animInfiniteEnd();
+        this.onAfterProbeDone(json.prb);
         this.isRunning = false;
       }
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "y") {
-        this.yOffset = json.prb.y;
+        //this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
         $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').removeClass("btn-danger").text("Run Y");
         this.animInfiniteEnd();
+        this.onAfterProbeDone(json.prb);
         this.isRunning = false;
       }
       /*if (this.probingFinished) {
@@ -368,43 +371,68 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       // play good beep
       this.audio.play();
 
-      // turn off animation/reset buttons
-
-      // start animation showing spindle descending
-      this.animInfiniteEnd();
-
-      this.isRunning = false;
-
-      // we take the z value returned and then add the plate height and make that
+      // we take the value returned and then add the plate height and make that
       // machine coordinates offset
-      var plateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
-      var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
-      if (isNaN(plateHeight)) plateHeight = 0;
-      if (isNaN(plateWidth)) plateWidth = 0;
-      if (isNaN(plateLength)) plateLength = 0;
-      console.log("plateHeight:", plateHeight);
-      console.log("plateWidth:", plateWidth);
-      console.log("platLength:", plateLength);
-      var xoffset = probeData.x - plateWidth;
-      var yoffset = probeData.y - plateLength;
-      var zoffset = probeData.z - plateHeight;
-      //var gcode = "G28.3 Z" + zoffset + "\n";
-      var gcode = "G28.3 X" + plateWidth + " Y" + plateLength + " Z" + plateHeight + "\n";
-      //var gcode = "G92 Z" + plateHeight + "\n";
-      var id = "tp" + this.gcodeCtr++;
-      chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-        Id: id,
-        D: gcode
-      });
-
-      // now back off a bit
-      var gcode = "G91 G0 X2 Y2 Z2\n";
-      var id = "tp" + this.gcodeCtr++;
-      chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-        Id: id,
-        D: gcode
-      });
+      if(this.runningAxis == "z") {
+        var plateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+        if (isNaN(plateHeight)) plateHeight = 0;
+        console.log("plateHeight:", plateHeight);
+        var zoffset = probeData.z - plateHeight;
+        var gcode = "G28.3 Z" + zoffset + "\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+        
+        // now back off a bit
+        var gcode = "G91 G0 Z2\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+      }
+      if(this.runningAxis == "x") {
+        var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+        if (isNaN(plateWidth)) plateWidth = 0;
+        console.log("plateWidth:", plateWidth);
+        var xoffset = probeData.x - plateWidth;
+        var gcode = "G28.3 X" + xoffset + "\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+        
+        // now back off a bit
+        var gcode = "G91 G0 X2\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+      }
+      if(this.runningAxis == "y") {
+        var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
+        if (isNaN(plateLength)) plateLength = 0;
+        console.log("platLength:", plateLength);
+        var yoffset = probeData.y - plateLength;
+        var gcode = "G28.3 Y" + yoffset + "\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+        
+        // now back off a bit
+        var gcode = "G91 G0 Y2\n";
+        var id = "tp" + this.gcodeCtr++;
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+          Id: id,
+          D: gcode
+        });
+      }
 
       // back to absolute mode
       var gcode = "G90\n";
