@@ -126,7 +126,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     init3d: function() {
       // init the threejs stuff
       this.width = $('#com-chilipeppr-widget-super-touchplate .panel-body').width();
-      this.height = 210;
+      this.height =$('#com-chilipeppr-widget-super-touchplate .panel-body').height();
 
       this.load(this.threeObj);
       //this.setSize( window.innerWidth, window.innerHeight );
