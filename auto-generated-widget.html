@@ -2,22 +2,23 @@
 <html>
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Widget / Super Touch Plate</title>
+  <title>Widget / Super Touch Plate</title>
 
-    <!-- ChiliPeppr is based on bootstrap CSS. -->
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <!-- ChiliPeppr is based on bootstrap CSS. -->
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-    <!-- Customized version of require.js for ChiliPeppr. Please see require.js docs for how
+  <!-- Customized version of require.js for ChiliPeppr. Please see require.js docs for how
     ChiliPeppr's dependency system works as it's based on require.js. -->
-    <script type='text/javascript' src="//i2dcui.appspot.com/js/require.js"></script>
+  <script type='text/javascript' src="//i2dcui.appspot.com/js/require.js"></script>
 
-    <style type='text/css'>
+  <style type='text/css'>
 #com-chilipeppr-widget-super-touchplate .panel-body {
   padding: 0;
   position: relative;
   margin-bottom: -5px;
+  height:100px;
 }
 
 #com-chilipeppr-widget-super-touchplate .settings-overlay {
@@ -31,6 +32,7 @@
 
 #com-chilipeppr-widget-super-touchplate .input-group-addon {
   font-size: 10px;
+  width:30%;
 }
 
 #com-chilipeppr-widget-super-touchplate .panel-footer {
@@ -49,7 +51,7 @@
 
     </style>
 
-    <script type='text/javascript'>
+  <script type='text/javascript'>
     //<![CDATA[
 requirejs.config({
   paths: {
@@ -1176,24 +1178,27 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
         <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
           <div class="" style="text-align:right;">X plate dimension</div>
-          <div class="input-group">
-            <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
+            <div class="input-group">
+              <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+              <div class="input-group-addon">mm</div>
+            </div>
+            <div class="" style="text-align:right;">Y plate dimension</div>
+              <div class="input-group">
+              <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="2.00" />
+              <div class="input-group-addon">mm</div>
+              </div>
+            <div class="" style="text-align:right;">Z plate dimension</div>
+            <div class="input-group">
+              <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="2.60" />
+              <div class="input-group-addon">mm</div>
+            </div>
+          </div>
+          <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
+
           </div>
         </div>
         <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
-          <div class="" style="text-align:right;">Y plate dimension</div>
-          <div class="input-group">
-            <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="2.00" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
-        <div style="position:relative;left:20px;top:20px;" xclass="pull-right">
-          <div class="" style="text-align:right;">Z plate dimension</div>
-          <div class="input-group">
-            <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="2.60" />
-            <div class="input-group-addon">mm</div>
-          </div>
+
         </div>
 
         <!-- <input type="number" class="form-control input-val z-threshold" value="1"/> -->

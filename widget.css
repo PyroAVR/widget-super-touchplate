@@ -2,6 +2,7 @@
   padding: 0;
   position: relative;
   margin-bottom: -5px;
+  height:100px;
 }
 
 #com-chilipeppr-widget-super-touchplate .settings-overlay {
@@ -15,6 +16,7 @@
 
 #com-chilipeppr-widget-super-touchplate .input-group-addon {
   font-size: 10px;
+  width:30%;
 }
 
 #com-chilipeppr-widget-super-touchplate .panel-footer {
