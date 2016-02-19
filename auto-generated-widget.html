@@ -329,7 +329,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           D: gcode
         });
         //Stop watching for data
-        that.watchForProbeEnd();
+        this.watchForProbeEnd();
         // swap button for desired axis to stop
         if(axis == "z") $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run");
         if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
@@ -347,7 +347,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           D: gcode
         });
         //start watching for data from SPJS, then run.
-        this.watchForProbeStart();
+        that.watchForProbeStart();
         if(axis == "z") this.runZaxis();
         if(axis == "x") this.runXaxis();
         if(axis == "y") this.runYAxis();
