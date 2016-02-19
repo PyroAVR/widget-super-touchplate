@@ -294,6 +294,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
         //start watching for data from SPJS, then run.
         //that.watchForProbeStart(); //This is broken, inlining.
+        console.log(axis);
         chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLineForProbe);
         if(axis == "z") this.runZaxis();
         if(axis == "x") this.runXaxis();
