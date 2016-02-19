@@ -452,7 +452,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         if (isNaN(plateWidth)) plateWidth = 0;
         console.log("plateWidth:", plateWidth);
         //var xoffset = probeData.x - plateWidth;
-        var gcode = "G28.3 X" + palteWidth + "\n";
+        var gcode = "G28.3 X" + plateWidth + "\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
