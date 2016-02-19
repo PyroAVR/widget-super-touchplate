@@ -479,7 +479,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       if (this.runningAxis == "z") {
         this.spindle.position.setY(this.spindle.position.y - 0.3);
-        if (this.spindle.position.z < -1) {
+        if (this.spindle.position.y < -1) {
           this.spindle.position.setY(5);
         }
         this.animate();
