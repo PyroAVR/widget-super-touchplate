@@ -377,8 +377,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         var plateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
         if (isNaN(plateHeight)) plateHeight = 0;
         console.log("plateHeight:", plateHeight);
-        var zoffset = probeData.z - plateHeight;
-        var gcode = "G28.3 Z" + zoffset + "\n";
+        //var zoffset = probeData.z - plateHeight;
+        var gcode = "G28.3 Z" + plateHeight + "\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -397,8 +397,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
         if (isNaN(plateWidth)) plateWidth = 0;
         console.log("plateWidth:", plateWidth);
-        var xoffset = probeData.x - plateWidth;
-        var gcode = "G28.3 X" + xoffset + "\n";
+        //var xoffset = probeData.x - plateWidth;
+        var gcode = "G28.3 X" + palteWidth + "\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -417,8 +417,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
         if (isNaN(plateLength)) plateLength = 0;
         console.log("platLength:", plateLength);
-        var yoffset = probeData.y - plateLength;
-        var gcode = "G28.3 Y" + yoffset + "\n";
+        //var yoffset = probeData.y - plateLength;
+        var gcode = "G28.3 Y" + plateLength + "\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
