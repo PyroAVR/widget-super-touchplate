@@ -138,9 +138,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
       $(window).resize(this.onresize.bind(this));
       // setup run buttons
-      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun("z"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun("x"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun("y"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
 
       // run intro anim
       this.introAnim();
@@ -260,8 +260,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     onRun: function(axis) {
-      //if this is a real thing in JavaScript, that gets done in professional code, _it's time for a rewrite, folks..._
-      var that = this;
       if (this.isRunning) {
         // we need to stop
 
@@ -293,41 +291,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //start watching for data from SPJS, then run.
         //that.watchForProbeStart(); //This is broken, inlining.
         console.log(axis);
-        chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLineForProbe);
+        this.watchForProbeStart();
+        //chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLineForProbe);
         if(axis == "z") this.runZaxis();
         if(axis == "x") this.runXaxis();
         if(axis == "y") this.runYAxis();
 
-        //this.audio.play();
-        // now start watching z
-        
-
-        
-        //this.runZAxis(feedrate);
-        /*
-        id = "tp" + this.gcodeCtr++;
-        gcode = "G91 G0 Z2\n";
-        chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        */
-        /*
-        id = "tp" + this.gcodeCtr++;
-        gcode = "G91 G0 X2\n";
-        chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        */
-        /*
-        id = "tp" + this.gcodeCtr++;
-        gcode = "G91 G0 Y2\n";
-        chilipeppr.publish("/com/chilipeppr-widget-serialport/jsonSend", {
-          Id: id,
-          D: gcode
-        });
-        */
       }
     },
     watchForProbeStart: function() {
