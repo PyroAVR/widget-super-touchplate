@@ -332,6 +332,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         if(axis == "z") $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').removeClass("btn-danger").text("Run");
         if(axis == "x") $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').removeClass("btn-danger").text("Run");
         if(axis == "y") $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').removeClass("btn-danger").text("Run");
+        this.animInfiniteEnd();
+        this.isRunning = false;
 
       }
       else {
@@ -414,6 +416,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.zOffset = json.prb.z;
         console.log("Z Offset from JSON: " + this.zOffset);
         this.animInfiniteEnd();
+        this.isRunning = false;
         // yes, it's data for the probe ending
 
         // now do all the final steps now that we got our data
@@ -423,13 +426,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         this.xOffset = json.prb.x;
         console.log("X Offset from JSON: " + this.xOffset);
         this.animInfiniteEnd();
+        this.isRunning = false;
       }
       if ('prb' in json && 'e' in json.prb && this.runningAxis == "y") {
         this.yOffset = json.prb.y;
         console.log("Y Offset from JSON: " + this.yOffset);
         this.animInfiniteEnd();
+        this.isRunning = false;
       }
-      if (this.probingFinished) {
+      /*if (this.probingFinished) {
         $('#com-chilipeppr-widget-super-touchplate .btn-touchplaterun').removeClass("btn-danger").text("Run");
         //this is also a hack to work with existing function definitions.
         var compositeJSONobject = new Object();
@@ -438,7 +443,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         compositeJSONObject.z = this.zOffset;
         var JSONstring = JSON.stringify(compositeJSONObject)
         this.onAfterProbeDone(JSONstring);
-      }
+      }*/
     },
     onAfterProbeDone: function(probeData) {
       // probeData should be of the format
