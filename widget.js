@@ -355,7 +355,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         coordSystem = $('#com-chilipeppr-widget-super-touchplate .coord-sel').val();
         switch (coordSystem) {
           case "G53":
-            this.coordOffsetNo = 0;
+            this.coordOffsetNo = 0; //Technically, this is N/A, it sets nothing, but we're using it to represent G53, or machine absolute coords.
             break;
           case "G54":
             this.coordOffsetNo = 1;
@@ -479,11 +479,14 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         console.log("plateHeight:", plateHeight);
         //var gcode = "G28.3 Z" + plateHeight + "\n";
         var gcode = "";
-        if (this.coordOffsetNo != 10) {
-          var gcode = "G10 L" + this.coordOffsetNo + " Z" + plateHeight + "\n";
+        if(this.coordOffsetNo == 0) {
+          gcode = "G28.3 Z" + plateHeight + "\n";
         }
-        if (this.coordOffsetNo == 10) { //Allowing G92
+        else if (this.coordOffsetNo == 10) { //Allowing G92
           var gcode = "G92 Z" + plateHeight + "\n";
+        }
+        else {
+          var gcode = "G10 L20" + this.coordOffsetNo + " Z" + plateHeight + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
