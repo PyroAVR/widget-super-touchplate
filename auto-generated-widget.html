@@ -202,11 +202,21 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         unitSystemName = "";
         if (unitSystem == "G20") {
           unitSystemName = "in";
-          this.convertToIn();
+          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          newBitDiam = currBitDiam * 25.4;
+          newPlateHeight = currPlateHeight * 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
         }
         if (unitSystem == "G21") {
           unitSystemName = "mm";
-          this.convertToMM();
+          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          newBitDiam = currBitDiam / 25.4;
+          newPlateHeight = currPlateHeight / 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
         }
         $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
         //One special case!
@@ -277,22 +287,23 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
+    /* //this pointer corruption is killing me.  Appended to .change of unit-sel object. see this.init3D
     convertToIn: function() {
       currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
       currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam *25.4;
-      newPlateHeight = currPlateHeight *25.4;
+      newBitDiam = currBitDiam * 25.4;
+      newPlateHeight = currPlateHeight * 25.4;
       $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
       $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
     },
     convertToMM: function() {
       currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
       currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam/25.4;
-      newPlateHeight = currPlateHeight/25.4;
+      newBitDiam = currBitDiam / 25.4;
+      newPlateHeight = currPlateHeight / 25.4;
       $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
       $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },
+    },*/
     runZAxis: function() {
       this.isRunning = true;
       console.log("Starting Z-probing operation");
@@ -385,45 +396,45 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
         //Get what offset we are using
         /*  For reference, the coordinate system-to-number chart can be found at:
-        *   http://linuxcnc.org/docs/html/gcode/g-code.html#gcode:g10-l2
-        *   Although you could probably just read this swich-case and be fine.
-        */
+         *   http://linuxcnc.org/docs/html/gcode/g-code.html#gcode:g10-l2
+         *   Although you could probably just read this swich-case and be fine.
+         */
         this.coordOffsetNo = 0;
         coordSystem = $('#com-chilipeppr-widget-super-touchplate .coord-sel').val();
-        switch(coordSystem) {
+        switch (coordSystem) {
           case "G53":
             this.coordOffsetNo = 0;
-          break;
+            break;
           case "G54":
             this.coordOffsetNo = 1;
-          break;
+            break;
           case "G55":
             this.coordOffsetNo = 2;
-          break;
+            break;
           case "G56":
             this.coordOffsetNo = 3;
-          break;
+            break;
           case "G57":
             this.coordOffsetNo = 4;
-          break;
+            break;
           case "G58":
             this.coordOffsetNo = 5;
-          break;
+            break;
           case "G59":
             this.coordOffsetNo = 6;
-          break;
+            break;
           case "G59.1":
             this.coordOffsetNo = 7;
-          break;
+            break;
           case "G59.2":
             this.coordOffsetNo = 8;
-          break;
+            break;
           case "G59.3":
             this.coordOffsetNo = 9;
-          break;
+            break;
           case "G92":
-            this.coordOffsetNo = 10;  //While technically not an official coordinate system, we'll use 10 to represent G92, WHICH I DO NOT RECOMMEND YOU USE. EVER.
-          break;
+            this.coordOffsetNo = 10; //While technically not an official coordinate system, we'll use 10 to represent G92, WHICH I DO NOT RECOMMEND YOU USE. EVER.
+            break;
         }
         //start watching for data from SPJS, then run.
         //that.watchForProbeStart(); //This is broken, inlining.
@@ -516,10 +527,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         console.log("plateHeight:", plateHeight);
         //var gcode = "G28.3 Z" + plateHeight + "\n";
         var gcode = "";
-        if(this.coordOffsetNo != 10)  {
+        if (this.coordOffsetNo != 10) {
           var gcode = "G10 L" + this.coordOffsetNo + " Z" + plateHeight + "\n";
         }
-        if(this.coordOffsetNo == 10)  {     //Allowing G92
+        if (this.coordOffsetNo == 10) { //Allowing G92
           var gcode = "G92 Z" + plateHeight + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
@@ -538,17 +549,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       if (this.runningAxis == "x") {
         var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
-        
+
         if (isNaN(plateWidth)) plateWidth = 0;
         if (isNaN(br)) br = 0;
         console.log("plateWidth:", plateWidth);
         //var gcode = "G28.3 X" + plateWidth + "\n";
         //var gcode = "G28.3 X" + br + "\n";
         var gcode = "";
-        if(this.coordOffsetNo != 10)  {
+        if (this.coordOffsetNo != 10) {
           var gcode = "G10 L" + this.coordOffsetNo + " X" + br + "\n";
         }
-        if(this.coordOffsetNo == 10)  {     //Allowing G92
+        if (this.coordOffsetNo == 10) { //Allowing G92
           var gcode = "G92 X" + plateWidth + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
@@ -568,17 +579,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if (this.runningAxis == "y") {
         var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
-        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val())/2;
+        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2;
         if (isNaN(plateLength)) plateLength = 0;
         if (isNaN(br)) br = 0;
         console.log("platLength:", plateLength);
         //var gcode = "G28.3 Y" + plateLength + "\n";
         //var gcode = "G28.3 Y" + br + "\n";
         var gcode = "";
-        if(this.coordOffsetNo != 10)  {
+        if (this.coordOffsetNo != 10) {
           var gcode = "G10 L" + this.coordOffsetNo + " Y" + br + "\n";
         }
-        if(this.coordOffsetNo == 10)  {     //Allowing G92
+        if (this.coordOffsetNo == 10) { //Allowing G92
           var gcode = "G92 Y" + plateLength + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
