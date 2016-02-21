@@ -144,17 +144,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
-          coordSystem = $('#com-chilipeppr-widget-super-toucplate .unit-sel').val();
-          coordSystemName = "";
-          if(coordSystem == "G20")  {
-            coordSystemName = "in";
-          }
-          if(coordSystem == "G21")  {
-            coordSystemName = "mm";
-          }
-          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
-          //One special case!
-          $('#com-chilipeppr-widget-super-touchplate #fr').text(coordSystemName + "/min");
+        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        unitSystemName = "";
+        if (unitSystem == "G20") {
+          unitSystemName = "in";
+        }
+        if (unitSystem == "G21") {
+          unitSystemName = "mm";
+        }
+        $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
+        //One special case!
+        $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
       });
       // run intro anim
       this.introAnim();
@@ -295,21 +295,64 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
-        coordSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
-        coordSystemName = "";
-        if(coordSystem == "G20")  {
-          coordSystemName = "in";
+        //Get and set units
+        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        unitSystemName = "";
+        if (unitSystem == "G20") {
+          unitSystemName = "in";
         }
-        if(coordSystem == "G21")  {
-          coordSystemName = "mm";
+        if (unitSystem == "G21") {
+          unitSystemName = "mm";
         }
         // send the probe command to start the movement
         var id = "tp" + this.gcodeCtr++;
-        var gcode =  coordSystem + " G91 (Use " + coordSystemName + " and rel coords)\n";
+        var gcode = unitSystem + " G91 (Use " + unitSystemName + " and rel coords)\n";
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode
         });
+        //Get what offset we are using
+        /*  For reference, the coordinate system-to-number chart can be found at:
+        *   http://linuxcnc.org/docs/html/gcode/g-code.html#gcode:g10-l2
+        *   Although you could probably just read this swich-case and be fine.
+        */
+        this.coordOffsetNo = 0;
+        coordSystem = $('#com-chilipeppr-widget-super-touchplate .coord-sel').val();
+        switch(coordSystem) {
+          case "G53":
+            this.coordOffsetNo = 0;
+          break;
+          case "G54":
+            this.coordOffsetNo = 1;
+          break;
+          case "G55":
+            this.coordOffsetNo = 2;
+          break;
+          case "G56":
+            this.coordOffsetNo = 3;
+          break;
+          case "G57":
+            this.coordOffsetNo = 4;
+          break;
+          case "G58":
+            this.coordOffsetNo = 5;
+          break;
+          case "G59":
+            this.coordOffsetNo = 6;
+          break;
+          case "G59.1":
+            this.coordOffsetNo = 7;
+          break;
+          case "G59.2":
+            this.coordOffsetNo = 8;
+          break;
+          case "G59.3":
+            this.coordOffsetNo = 9;
+          break;
+          case "G92":
+            this.coordOffsetNo = 10;  //While technically not an official coordinate system, we'll use 10 to represent G92, WHICH I DO NOT RECOMMEND YOU USE. EVER.
+          break;
+        }
         //start watching for data from SPJS, then run.
         //that.watchForProbeStart(); //This is broken, inlining.
         console.log(axis);
@@ -399,8 +442,14 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         var plateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
         if (isNaN(plateHeight)) plateHeight = 0;
         console.log("plateHeight:", plateHeight);
-        //var zoffset = probeData.z - plateHeight;
-        var gcode = "G28.3 Z" + plateHeight + "\n";
+        //var gcode = "G28.3 Z" + plateHeight + "\n";
+        var gcode = "";
+        if(this.coordOffsetNo != 10)  {
+          var gcode = "G10 L" + this.coordOffsetNo + " Z" + plateHeight + "\n";
+        }
+        if(this.coordOffsetNo == 10)  {     //Allowing G92
+          var gcode = "G92 Z" + plateHeight + "\n";
+        }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -417,10 +466,19 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       if (this.runningAxis == "x") {
         var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+        
         if (isNaN(plateWidth)) plateWidth = 0;
+        if (isNaN(br)) br = 0;
         console.log("plateWidth:", plateWidth);
-        //var xoffset = probeData.x - plateWidth;
-        var gcode = "G28.3 X" + plateWidth + "\n";
+        //var gcode = "G28.3 X" + plateWidth + "\n";
+        //var gcode = "G28.3 X" + br + "\n";
+        var gcode = "";
+        if(this.coordOffsetNo != 10)  {
+          var gcode = "G10 L" + this.coordOffsetNo + " X" + br + "\n";
+        }
+        if(this.coordOffsetNo == 10)  {     //Allowing G92
+          var gcode = "G92 X" + plateWidth + "\n";
+        }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -437,10 +495,20 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       if (this.runningAxis == "y") {
         var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
+        //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
+        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val())/2;
         if (isNaN(plateLength)) plateLength = 0;
+        if (isNaN(br)) br = 0;
         console.log("platLength:", plateLength);
-        //var yoffset = probeData.y - plateLength;
-        var gcode = "G28.3 Y" + plateLength + "\n";
+        //var gcode = "G28.3 Y" + plateLength + "\n";
+        //var gcode = "G28.3 Y" + br + "\n";
+        var gcode = "";
+        if(this.coordOffsetNo != 10)  {
+          var gcode = "G10 L" + this.coordOffsetNo + " Y" + br + "\n";
+        }
+        if(this.coordOffsetNo == 10)  {     //Allowing G92
+          var gcode = "G92 Y" + plateLength + "\n";
+        }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -912,16 +980,14 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "widthSegments": 0,
           "heightSegments": 0,
           "depthSegments": 0
-        },
-        {
+        }, {
           "uuid": "4601A1C8-537C-4551-BD1D-4C5AF434C3CB",
           "type": "PlaneGeometry",
           "width": 5000,
           "height": 5000,
           "widthSegments": 1,
           "heightSegments": 1
-        },
-        {
+        }, {
           "uuid": "50DB6DF6-4923-441C-AE63-92D3A94EAEEC",
           "type": "CylinderGeometry",
           "radiusTop": 2,
@@ -930,8 +996,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 32,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "E52C9CE5-1054-4953-87BD-2CD5640D756E",
           "type": "CylinderGeometry",
           "radiusTop": 6,
@@ -940,8 +1005,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 32,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "5DA49C1D-243E-44BC-B9ED-3D451DC46576",
           "type": "CylinderGeometry",
           "radiusTop": 6,
@@ -950,8 +1014,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 32,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "7FC7C6E9-AB7B-4B04-8BE1-13C810B7A639",
           "type": "CylinderGeometry",
           "radiusTop": 10,
@@ -960,8 +1023,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 64,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "93672A9F-6465-4F99-91AF-3CE40984F939",
           "type": "CylinderGeometry",
           "radiusTop": 10,
@@ -970,8 +1032,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 64,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "AC65F2CF-EBFF-4EC9-A4EF-F9FCB356E78F",
           "type": "CylinderGeometry",
           "radiusTop": 18,
@@ -980,8 +1041,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "radialSegments": 64,
           "heightSegments": 1,
           "openEnded": false
-        },
-        {
+        }, {
           "uuid": "8EB2C68D-5127-417B-94B1-E5B428D39B58",
           "type": "CylinderGeometry",
           "radiusTop": 15,
@@ -991,144 +1051,144 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           "heightSegments": 1,
           "openEnded": false
         }],
-      "materials": [{
-        "uuid": "D963E6DA-A503-450E-B082-F17EE56A0E75",
-        "type": "MeshPhongMaterial",
-        "color": 16777215,
-        "ambient": 16777215,
-        "emissive": 6184542,
-        "specular": 1118481,
-        "shininess": 30,
-        "opacity": 0.5
-      }, {
-        "uuid": "BE00593A-F38B-48E1-9219-66CC5B0C81DF",
-        "type": "MeshPhongMaterial",
-        "color": 16777215,
-        "ambient": 16777215,
-        "emissive": 0,
-        "specular": 1118481,
-        "shininess": 30
-      }, {
-        "uuid": "DE09C011-C3E2-4D2D-986C-D7EA95C3F99F",
-        "type": "MeshPhongMaterial",
-        "color": 16777215,
-        "ambient": 16777215,
-        "emissive": 0,
-        "specular": 1118481,
-        "shininess": 30
-      }, {
-        "uuid": "0193A44A-30D0-4B28-BB6A-75652B7716E5",
-        "type": "MeshPhongMaterial",
-        "color": 16777215,
-        "ambient": 16777215,
-        "emissive": 0,
-        "specular": 1118481,
-        "shininess": 30
-      }, {
-        "uuid": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
-        "type": "MeshPhongMaterial",
-        "color": 8292740,
-        "ambient": 16777215,
-        "emissive": 131340,
-        "specular": 1118481,
-        "shininess": 30,
-        "opacity": 0.8
-      }, {
-        "uuid": "3E27D340-2002-48B3-A3CB-62DB72D1E1A6",
-        "type": "MeshPhongMaterial",
-        "color": 11974326,
-        "ambient": 16777215,
-        "emissive": 5395026,
-        "specular": 1118481,
-        "shininess": 30
-      }],
-      "object": {
-        "uuid": "31517222-A9A7-4EAF-B5F6-60751C0BABA3",
-        "type": "Scene",
-        "name": "Scene",
-        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-        "children": [{
-          "uuid": "CB134A1B-D27A-4509-A4C7-971458B9D412",
-          "type": "SpotLight",
-          "name": "SpotLight 1",
+        "materials": [{
+          "uuid": "D963E6DA-A503-450E-B082-F17EE56A0E75",
+          "type": "MeshPhongMaterial",
           "color": 16777215,
-          "intensity": 1,
-          "distance": 0,
-          "angle": 0.874,
-          "exponent": 10,
-          "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 100, 200, 150, 1]
+          "ambient": 16777215,
+          "emissive": 6184542,
+          "specular": 1118481,
+          "shininess": 30,
+          "opacity": 0.5
         }, {
-          "uuid": "65E528E3-190E-4679-A254-1692F2237593",
-          "type": "Mesh",
-          "name": "Plane 3",
-          "geometry": "4601A1C8-537C-4551-BD1D-4C5AF434C3CB",
-          "material": "D963E6DA-A503-450E-B082-F17EE56A0E75",
-          "matrix": [1, 0, 0, 0, 0, 0.0002963267907034606, -0.9999999403953552, 0, 0, 0.9999999403953552, 0.0002963267907034606, 0, 0, 0, 0, 1]
+          "uuid": "BE00593A-F38B-48E1-9219-66CC5B0C81DF",
+          "type": "MeshPhongMaterial",
+          "color": 16777215,
+          "ambient": 16777215,
+          "emissive": 0,
+          "specular": 1118481,
+          "shininess": 30
         }, {
-          "uuid": "0D3032BA-5923-4B8F-BA26-4E45525DB3D1",
-          "type": "Group",
-          "name": "GroupSpindle",
+          "uuid": "DE09C011-C3E2-4D2D-986C-D7EA95C3F99F",
+          "type": "MeshPhongMaterial",
+          "color": 16777215,
+          "ambient": 16777215,
+          "emissive": 0,
+          "specular": 1118481,
+          "shininess": 30
+        }, {
+          "uuid": "0193A44A-30D0-4B28-BB6A-75652B7716E5",
+          "type": "MeshPhongMaterial",
+          "color": 16777215,
+          "ambient": 16777215,
+          "emissive": 0,
+          "specular": 1118481,
+          "shininess": 30
+        }, {
+          "uuid": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
+          "type": "MeshPhongMaterial",
+          "color": 8292740,
+          "ambient": 16777215,
+          "emissive": 131340,
+          "specular": 1118481,
+          "shininess": 30,
+          "opacity": 0.8
+        }, {
+          "uuid": "3E27D340-2002-48B3-A3CB-62DB72D1E1A6",
+          "type": "MeshPhongMaterial",
+          "color": 11974326,
+          "ambient": 16777215,
+          "emissive": 5395026,
+          "specular": 1118481,
+          "shininess": 30
+        }],
+        "object": {
+          "uuid": "31517222-A9A7-4EAF-B5F6-60751C0BABA3",
+          "type": "Scene",
+          "name": "Scene",
           "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
           "children": [{
-            "uuid": "768EAB11-0588-4690-A053-E6F9C5BB87E0",
-            "type": "Mesh",
-            "name": "Endmill",
-            "geometry": "50DB6DF6-4923-441C-AE63-92D3A94EAEEC",
-            "material": "BE00593A-F38B-48E1-9219-66CC5B0C81DF",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 18.510000228881836, 0, 1]
+            "uuid": "CB134A1B-D27A-4509-A4C7-971458B9D412",
+            "type": "SpotLight",
+            "name": "SpotLight 1",
+            "color": 16777215,
+            "intensity": 1,
+            "distance": 0,
+            "angle": 0.874,
+            "exponent": 10,
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 100, 200, 150, 1]
           }, {
-            "uuid": "6CD932C4-5C71-404B-B0FB-5B7879388F2E",
+            "uuid": "65E528E3-190E-4679-A254-1692F2237593",
             "type": "Mesh",
-            "name": "ColletTaper",
-            "geometry": "E52C9CE5-1054-4953-87BD-2CD5640D756E",
-            "material": "DE09C011-C3E2-4D2D-986C-D7EA95C3F99F",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 22.6299991607666, 0, 1]
+            "name": "Plane 3",
+            "geometry": "4601A1C8-537C-4551-BD1D-4C5AF434C3CB",
+            "material": "D963E6DA-A503-450E-B082-F17EE56A0E75",
+            "matrix": [1, 0, 0, 0, 0, 0.0002963267907034606, -0.9999999403953552, 0, 0, 0.9999999403953552, 0.0002963267907034606, 0, 0, 0, 0, 1]
           }, {
-            "uuid": "C4D75B11-5EC3-4267-AAA5-B62DC2DD6507",
-            "type": "Mesh",
-            "name": "Collet",
-            "geometry": "5DA49C1D-243E-44BC-B9ED-3D451DC46576",
-            "material": "0193A44A-30D0-4B28-BB6A-75652B7716E5",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 26, 0, 1]
+            "uuid": "0D3032BA-5923-4B8F-BA26-4E45525DB3D1",
+            "type": "Group",
+            "name": "GroupSpindle",
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "children": [{
+              "uuid": "768EAB11-0588-4690-A053-E6F9C5BB87E0",
+              "type": "Mesh",
+              "name": "Endmill",
+              "geometry": "50DB6DF6-4923-441C-AE63-92D3A94EAEEC",
+              "material": "BE00593A-F38B-48E1-9219-66CC5B0C81DF",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 18.510000228881836, 0, 1]
+            }, {
+              "uuid": "6CD932C4-5C71-404B-B0FB-5B7879388F2E",
+              "type": "Mesh",
+              "name": "ColletTaper",
+              "geometry": "E52C9CE5-1054-4953-87BD-2CD5640D756E",
+              "material": "DE09C011-C3E2-4D2D-986C-D7EA95C3F99F",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 22.6299991607666, 0, 1]
+            }, {
+              "uuid": "C4D75B11-5EC3-4267-AAA5-B62DC2DD6507",
+              "type": "Mesh",
+              "name": "Collet",
+              "geometry": "5DA49C1D-243E-44BC-B9ED-3D451DC46576",
+              "material": "0193A44A-30D0-4B28-BB6A-75652B7716E5",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 26, 0, 1]
+            }, {
+              "uuid": "84DECC53-67F7-4707-B9EC-F26F5FBDBC28",
+              "type": "Mesh",
+              "name": "SpindleBaseTaper",
+              "geometry": "7FC7C6E9-AB7B-4B04-8BE1-13C810B7A639",
+              "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 29, 0, 1]
+            }, {
+              "uuid": "329C2A35-C121-489E-86D8-86B8426A4726",
+              "type": "Mesh",
+              "name": "SpindleBase",
+              "geometry": "93672A9F-6465-4F99-91AF-3CE40984F939",
+              "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 79.5, 0, 1]
+            }]
           }, {
-            "uuid": "84DECC53-67F7-4707-B9EC-F26F5FBDBC28",
-            "type": "Mesh",
-            "name": "SpindleBaseTaper",
-            "geometry": "7FC7C6E9-AB7B-4B04-8BE1-13C810B7A639",
-            "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 29, 0, 1]
-          }, {
-            "uuid": "329C2A35-C121-489E-86D8-86B8426A4726",
-            "type": "Mesh",
-            "name": "SpindleBase",
-            "geometry": "93672A9F-6465-4F99-91AF-3CE40984F939",
-            "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 79.5, 0, 1]
+            "uuid": "B0F9BB34-C502-46B6-A34E-BB374743DFCB",
+            "type": "Group",
+            "name": "GroupTouchPlate",
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            "children": [{
+              "uuid": "F489E92A-EE90-48AC-88AF-4867D7049272",
+              "type": "Mesh",
+              "name": "TouchPlateOuter",
+              "geometry": "AC65F2CF-EBFF-4EC9-A4EF-F9FCB356E78F",
+              "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+            }, {
+              "uuid": "B38B19B8-5E6A-4EAB-89B5-998A8B10BD7A",
+              "type": "Mesh",
+              "name": "TouchPlateMetal",
+              "geometry": "8EB2C68D-5127-417B-94B1-E5B428D39B58",
+              "material": "3E27D340-2002-48B3-A3CB-62DB72D1E1A6",
+              "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 6.119999885559082, 0, 1]
+            }]
           }]
-        }, {
-          "uuid": "B0F9BB34-C502-46B6-A34E-BB374743DFCB",
-          "type": "Group",
-          "name": "GroupTouchPlate",
-          "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-          "children": [{
-            "uuid": "F489E92A-EE90-48AC-88AF-4867D7049272",
-            "type": "Mesh",
-            "name": "TouchPlateOuter",
-            "geometry": "AC65F2CF-EBFF-4EC9-A4EF-F9FCB356E78F",
-            "material": "D20E89D8-E7FF-4152-B666-46CBDB913FAC",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
-          }, {
-            "uuid": "B38B19B8-5E6A-4EAB-89B5-998A8B10BD7A",
-            "type": "Mesh",
-            "name": "TouchPlateMetal",
-            "geometry": "8EB2C68D-5127-417B-94B1-E5B428D39B58",
-            "material": "3E27D340-2002-48B3-A3CB-62DB72D1E1A6",
-            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 6.119999885559082, 0, 1]
-          }]
-        }]
-      }
+        }
+      },
+      "scripts": {}
     },
-    "scripts": {}
-  },
-}
+  }
 });
