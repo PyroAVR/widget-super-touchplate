@@ -232,7 +232,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
     },
     convertToMM: function() {
-      
+      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+      newBitDiam = currBitDiam/25.4;
+      newPlateHeight = currPlateHeight/25.4;
+      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
     },
     runZAxis: function() {
       this.isRunning = true;
