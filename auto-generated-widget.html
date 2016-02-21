@@ -204,19 +204,25 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           unitSystemName = "in";
           currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
           newBitDiam = currBitDiam / 25.4;
           newPlateHeight = currPlateHeight / 25.4;
+          newFRate = currFRate / 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
         }
         if (unitSystem == "G21") {
           unitSystemName = "mm";
           currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
           newBitDiam = currBitDiam * 25.4;
           newPlateHeight = currPlateHeight * 25.4;
+          newFRate = currFRate * 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
         }
         $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
         //One special case!
