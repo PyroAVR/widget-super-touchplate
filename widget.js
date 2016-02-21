@@ -288,7 +288,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       else {
         coordSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
-        coordSystemName = $('#com-chilipeppr-widget-super-touchplate .unit-sel').text();
+        coordSystemName = "";
+        if(coordSystem == "G20")  {
+          coordSystemName = "in";
+        }
+        if(coordSystem == "G21")  {
+          coordSystemName = "mm";
+        }
         // send the probe command to start the movement
         var id = "tp" + this.gcodeCtr++;
         var gcode =  coordSystem + " G91 (Use " + coordSystemName + " and rel coords)\n";
