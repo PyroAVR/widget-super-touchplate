@@ -141,6 +141,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      //Now that we support multiple units, setup input-group-addons
+      //When the units change, update the input-group-addons to reflect that change
+      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
+          coordSystemName = $('#com-chilipeppr-widget-super-toucplate .input-group-addon').val();
+          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
+      });
 
       // run intro anim
       this.introAnim();
@@ -281,9 +287,11 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
+        coordSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        coordSystemName = $('#com-chilipeppr-widget-super-touchplate .unit-sel').text();
         // send the probe command to start the movement
         var id = "tp" + this.gcodeCtr++;
-        var gcode = "G21 G91 (Use mm and rel coords)\n";
+        var gcode =  coordSystem + " G91 (Use " + coordSystemName + " and rel coords)\n";
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode

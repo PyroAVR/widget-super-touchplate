@@ -195,6 +195,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      //Now that we support multiple units, setup input-group-addons
+      //When the units change, update the input-group-addons to reflect that change
+      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
+          coordSystemName = $('#com-chilipeppr-widget-super-toucplate .input-group-addon').val();
+          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
+      });
 
       // run intro anim
       this.introAnim();
@@ -335,9 +341,11 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
       }
       else {
+        coordSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        coordSystemName = $('#com-chilipeppr-widget-super-touchplate .unit-sel').text();
         // send the probe command to start the movement
         var id = "tp" + this.gcodeCtr++;
-        var gcode = "G21 G91 (Use mm and rel coords)\n";
+        var gcode =  coordSystem + " G91 (Use " + coordSystemName + " and rel coords)\n";
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
           D: gcode
@@ -1212,25 +1220,46 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
             <div class="input-group-addon">mm/min</div>
           </div>
         </div>
-        <select class="input-small">
-          <option value="g53">G53</option>
-          <option value="g54">G53</option>
-          <option value="g55">G53</option>
-          <option value="g56">G53</option>
-          <option value="g57">G53</option>
-          <option value="g58">G53</option>
-          <option value="g59">G53</option>
-          <option value="g59.1">G53</option>
-          <option value="g59.2">G53</option>
-          <option value="g59.3">G53</option>
-        </select>
-        <!--
+
+        <div style="width:50%;display:inline-block;">
+          <div style="text-align:right;">Coordinate System</div>
+          <select style="width:60px;" class="input-small form-control coord-sel">
+            <option value="G53">G53</option>
+            <option value="G54">G54</option>
+            <option value="G55">G55</option>
+            <option value="G56">G56</option>
+            <option value="G57">G57</option>
+            <option value="G58">G58</option>
+            <option value="G59">G59</option>
+            <option value="G59.1">G59.1</option>
+            <option value="G59.2">G59.2</option>
+            <option value="G59.3">G59.3</option>
+          </select>
+        </div>
+
+        <div style="width:10%;padding-left:10px;display:inline-block;">
+          <div style="text-align:right;">Units</div>
+          <select style="width:100px;" class="input-small form-control unit-sel">
+            <option value="G20">Inches</option>
+            <option value="G21">Milimeters</option>
+          </select>
+        </div>
+
+        <div style="width:33%;display:table-col;">
+          <div style="text-align:right;">Bit Diameter</div>
+          <div class="input-group">
+            <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
+            <div class="input-group-addon">mm</div>
+          </div>
+        </div>
+
         <div style="width:40%;display:table-col;">
           <div style="text-align:right;">Plate height [Z]</div>
           <div class="input-group">
             <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
             <div class="input-group-addon">mm</div>
           </div>
+          <!--
         </div>
         <div style="width:40%;display:table-col;">
           <div style="text-align:right;">Plate width [X]</div>
@@ -1247,17 +1276,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           </div>
         </div>
         -->
-      </div>
+        </div>
 
+      </div>
+      <div class="panel-footer hidden">
+        <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+      </div>
     </div>
-    <div class="panel-footer hidden">
-      <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
-    </div>
-  </div>
-  <div id="test-serial-port"></div>
-  <div id="test-tinyg"></div>
-  <div id="test-console"></div>
-  <div id="test-axes"></div>
+    <div id="test-serial-port"></div>
+    <div id="test-tinyg"></div>
+    <div id="test-console"></div>
+    <div id="test-axes"></div>
 
 </body>
 
