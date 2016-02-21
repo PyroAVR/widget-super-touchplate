@@ -204,8 +204,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           unitSystemName = "in";
           currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          newBitDiam = currBitDiam * 25.4;
-          newPlateHeight = currPlateHeight * 25.4;
+          newBitDiam = currBitDiam / 25.4;
+          newPlateHeight = currPlateHeight / 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
         }
@@ -213,8 +213,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           unitSystemName = "mm";
           currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          newBitDiam = currBitDiam / 25.4;
-          newPlateHeight = currPlateHeight / 25.4;
+          newBitDiam = currBitDiam * 25.4;
+          newPlateHeight = currPlateHeight * 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
         }
