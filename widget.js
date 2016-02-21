@@ -141,7 +141,19 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
-
+      //Now that we support multiple units, setup input-group-addons
+      //When the units change, update the input-group-addons to reflect that change
+      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
+          coordSystem = $('#com-chilipeppr-widget-super-toucplate .unit-sel').val();
+          coordSystemName = "";
+          if(coordSystem == "G20")  {
+            coordSystemName = "in";
+          }
+          if(coordSystem == "G21")  {
+            coordSystemName = "mm";
+          }
+          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
+      });
       // run intro anim
       this.introAnim();
     },
@@ -260,12 +272,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       this.animInfiniteStart();
     },
     onRun: function(axis) {
-      //Now that we support multiple units, setup input-group-addons
-      //When the units change, update the input-group-addons to reflect that change
-      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
-          coordSystemName = $('#com-chilipeppr-widget-super-toucplate .input-group-addon').val();
-          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
-      });
       if (this.isRunning) {
         // we need to stop
 
