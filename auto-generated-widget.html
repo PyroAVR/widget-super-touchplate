@@ -202,9 +202,11 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         unitSystemName = "";
         if (unitSystem == "G20") {
           unitSystemName = "in";
+          this.convertToIn();
         }
         if (unitSystem == "G21") {
           unitSystemName = "mm";
+          this.convertToMM();
         }
         $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
         //One special case!
@@ -275,6 +277,17 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
+    convertToIn: function() {
+      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+      newBitDiam = currBitDiam *25.4;
+      newPlateHeight = currPlateHeight *25.4;
+      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+    },
+    convertToMM: function() {
+      
+    },
     runZAxis: function() {
       this.isRunning = true;
       console.log("Starting Z-probing operation");
