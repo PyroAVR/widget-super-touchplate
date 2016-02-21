@@ -206,7 +206,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           if(coordSystem == "G21")  {
             coordSystemName = "mm";
           }
-          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text("Hello");
+          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
+          //One special case!
+          $('#com-chilipeppr-widget-super-touchplate #fr').text(coordSystemName + "/min");
       });
       // run intro anim
       this.introAnim();
@@ -1229,7 +1231,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           <div style="text-align:right;">Feedrate to Probe</div>
           <div class="input-group">
             <input style="width:200px;" class="form-control frprobe" type="number" placeholder="0.00" value="25" />
-            <div class="input-group-addon">mm/min</div>
+            <div id="fr" class="input-group-addon">mm/min</div>
           </div>
         </div>
 

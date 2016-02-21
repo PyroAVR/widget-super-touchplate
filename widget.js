@@ -152,7 +152,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           if(coordSystem == "G21")  {
             coordSystemName = "mm";
           }
-          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text("Hello");
+          $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(coordSystemName);
+          //One special case!
+          $('#com-chilipeppr-widget-super-touchplate #fr').text(coordSystemName + "/min");
       });
       // run intro anim
       this.introAnim();
