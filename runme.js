@@ -1120,7 +1120,7 @@ var pushToGithubSync = function() {
   // git push
   var stdout = "";
   stdout += "> git add *\n";
-  stdout += '> git commit -m "updated issue with offsets in non-machine coords."\n';
+  stdout += '> git commit -m "fixed incorrect XY search direction."\n';
   stdout += "> git push\n";
   stdout += proc.execSync('git add *; git commit -m "Restructuring to allow multi-axis"; git push;', { encoding: 'utf8' });
   console.log("Pushed to github sync. Stdout:", stdout);
@@ -1134,7 +1134,7 @@ var pushToGithubAsync = function() {
   exec('git add *', function(error1, stdout1, stderr1) {
     // command output is in stdout
     console.log("stdout:", stdout1, "stderr:", stderr1);
-    exec('bash -c "git commit -m \\"updated issue with offsets in non-machine coords.\\""', function(error2, stdout2, stderr2) {
+    exec('bash -c "git commit -m \\"fixed incorrect XY search direction.\\""', function(error2, stdout2, stderr2) {
       // command output is in stdout
       console.log("stdout:", stdout2, "stderr:", stderr2);
       exec('git push', function(error3, stdout3, stderr3) {

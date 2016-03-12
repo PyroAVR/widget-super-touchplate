@@ -281,9 +281,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').addClass("btn-danger").text("Stop");
       //get feedrate
       var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-
+      //positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
       var id = "tp" + this.gcodeCtr++;
-      gcode = "G38.2 X-20 F" + fr + "\n";
+      gcode = "G38.2 X20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
         Id: id,
         D: gcode
@@ -298,9 +298,9 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').addClass("btn-danger").text("Stop");
       //get feedrate
       var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-
+      //positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
       var id = "tp" + this.gcodeCtr++;
-      gcode = "G38.2 Y-20 F" + fr + "\n";
+      gcode = "G38.2 Y20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
         Id: id,
         D: gcode
