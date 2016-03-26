@@ -564,13 +564,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 X" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 X" + -br + "\n";
+          gcode = "G28.3 X" + br + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 X" + -br + "\n";
+          var gcode = "G92 X" + br + "\n";
         }
         else {
-          var gcode = "G10 L2 P" + this.coordOffsetNo + " X" + -br + "\n";
+          var gcode = "G10 L2 P" + this.coordOffsetNo + " X" + br + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -597,13 +597,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 Y" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 Y" + -br + "\n";
+          gcode = "G28.3 Y" + br + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 Y" + -br + "\n";
+          var gcode = "G92 Y" + br + "\n";
         }
         else {
-          var gcode = "G10 L2 P" + this.coordOffsetNo + " Y" + -br + "\n";
+          var gcode = "G10 L2 P" + this.coordOffsetNo + " Y" + br + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
