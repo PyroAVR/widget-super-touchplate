@@ -578,7 +578,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
 
         // now back off a bit
-        var gcode = "G91 G0 X2\n";
+        var gcode = "G91 G0 X-2\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
@@ -611,7 +611,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
 
         // now back off a bit
-        var gcode = "G91 G0 Y2\n";
+        var gcode = "G91 G0 Y-2\n";
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
           Id: id,
