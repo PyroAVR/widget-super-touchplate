@@ -556,7 +556,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       }
       if (this.runningAxis == "x") {
         var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
-
+        //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
+        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
         if (isNaN(plateWidth)) plateWidth = 0;
         if (isNaN(br)) br = 0;
         console.log("plateWidth:", plateWidth);
@@ -564,13 +565,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 X" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 X" + -br + "\n";
+          gcode = "G28.3 X" + br + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 X" + -br + "\n";
+          var gcode = "G92 X" + br + "\n";
         }
         else {
-          var gcode = "G10 L2 P" + this.coordOffsetNo + " X" + -br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " X" + br + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -589,7 +590,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       if (this.runningAxis == "y") {
         var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
-        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2;
+        var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
         if (isNaN(plateLength)) plateLength = 0;
         if (isNaN(br)) br = 0;
         console.log("platLength:", plateLength);
@@ -603,7 +604,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
           var gcode = "G92 Y" + br + "\n";
         }
         else {
-          var gcode = "G10 L2 P" + this.coordOffsetNo + " Y" + br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " Y" + br + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
