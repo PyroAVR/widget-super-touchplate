@@ -263,7 +263,24 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').addClass("btn-danger").text("Stop");
       //get feedrate
       var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-
+      
+      //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
+      var id = "tp" + this.gcodeCtr++;
+      if(this.coordOffsetNo = 0)  {
+       gcoed = "G38.3 Z0"; 
+       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+       });
+      }
+      else {
+        gcode = "G10 L2 P" + this.coordOffsetNo + "Z0"
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+        });
+      }
+      //Start searching!
       var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Z-20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -281,7 +298,24 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').addClass("btn-danger").text("Stop");
       //get feedrate
       var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-      //positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
+      
+      //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
+      var id = "tp" + this.gcodeCtr++;
+      if(this.coordOffsetNo = 0)  {
+       gcoed = "G38.3 X0"; 
+       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+       });
+      }
+      else {
+        gcode = "G10 L2 P" + this.coordOffsetNo + "X0"
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+        });
+      }  
+      //Start searching! Positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
       var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 X20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -298,7 +332,24 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').addClass("btn-danger").text("Stop");
       //get feedrate
       var fr = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-      //positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
+      
+      //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
+      var id = "tp" + this.gcodeCtr++;
+      if(this.coordOffsetNo = 0)  {
+       gcoed = "G38.3 Y0"; 
+       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+       });
+      }
+      else {
+        gcode = "G10 L2 P" + this.coordOffsetNo + "Y0"
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+         Id: id,
+         D: gcode
+        });
+      }
+      //Start searching! Positive value makes toolhead search in opposite direction from g53 origin, towards touchplate.
       var id = "tp" + this.gcodeCtr++;
       gcode = "G38.2 Y20 F" + fr + "\n";
       chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
