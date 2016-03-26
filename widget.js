@@ -266,15 +266,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       
       //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
       var id = "tp" + this.gcodeCtr++;
-      if(this.coordOffsetNo = 0)  {
-       gcode = "G38.3 Z0"; 
+      if(this.coordOffsetNo == 0)  {
+       gcode = "G28.3 Z0"; 
        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
        });
       }
       else {
-        gcode = "G10 L2 P" + this.coordOffsetNo + "Z0"
+        gcode = "G10 L2 P" + this.coordOffsetNo + " Z0"
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
@@ -301,15 +301,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       
       //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
       var id = "tp" + this.gcodeCtr++;
-      if(this.coordOffsetNo = 0)  {
-       gcode = "G38.3 X0"; 
+      if(this.coordOffsetNo == 0)  {
+       gcode = "G28.3 X0"; 
        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
        });
       }
       else {
-        gcode = "G10 L2 P" + this.coordOffsetNo + "X0"
+        gcode = "G10 L2 P" + this.coordOffsetNo + " X0"
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
@@ -335,15 +335,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       
       //Set this axis to zero so that we search in the correct direction no matter what the absolute coords are.
       var id = "tp" + this.gcodeCtr++;
-      if(this.coordOffsetNo = 0)  {
-       gcode = "G38.3 Y0"; 
+      if(this.coordOffsetNo == 0)  {
+       gcode = "G28.3 Y0"; 
        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
        });
       }
       else {
-        gcode = "G10 L2 P" + this.coordOffsetNo + "Y0"
+        gcode = "G10 L2 P" + this.coordOffsetNo + " Y0"
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
          Id: id,
          D: gcode
