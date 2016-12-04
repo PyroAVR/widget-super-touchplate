@@ -35,6 +35,7 @@
 
 <body>
   <div id="com-chilipeppr-widget-super-touchplate" class="panel panel-default">
+    <!--Title and collapse/fork dropdowns-->
     <div class="panel-heading">
       <div class="btn-toolbar pull-right" role="toolbar">
 
@@ -56,8 +57,48 @@
       </div>
       <span class="panel-title" data-toggle="popover">Super Touch Plate</span> <span style="font-size:9px;" class="fb-build"></span>
     </div>
-    <div class="panel-body">
+    <div>
 
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
+      <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+      <li role="presentation"><a href="#tutorial" aria-controls="Tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+      <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+    </ul>
+
+</div>
+    <div class="panel-body">
+    
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!--Run buttons and cool animation-->
+        <div role="tabpanel" class="tab-pane active" id="main">
+          <div class="settings-overlay">
+            <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
+    
+            <p>
+              <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
+              <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
+              <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+            </p>
+          </div>
+        </div>
+        <!--Coord. System, Touchplate dims-->
+        <div role="tabpanel" class="tab-pane" id="settings">
+          
+        </div>
+        <!--Link to tutorial video-->
+        <div role="tabpanel" class="tab-pane" id="tutorial">
+          
+        </div>
+        
+        <div role="tabpanel" class="tab-pane" id="settings">
+          
+        </div>
+      </div>
+
+      <!--Buttons and boxes-->
       <div class="settings-overlay">
         <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
 
