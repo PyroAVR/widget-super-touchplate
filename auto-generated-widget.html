@@ -1366,24 +1366,24 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     </div>
     <div>
 
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
-      <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-      <li role="presentation"><a href="#tutorial" aria-controls="Tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
-      <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-    </ul>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li role="presentation"><a href="#tutorial" aria-controls="Tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+      </ul>
 
-</div>
+    </div>
     <div class="panel-body">
-    
+
       <!-- Tab panes -->
       <div class="tab-content">
         <!--Run buttons and cool animation-->
         <div role="tabpanel" class="tab-pane active" id="main">
           <div class="settings-overlay">
             <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
-    
+
             <p>
               <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
               <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
@@ -1391,8 +1391,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
             </p>
           </div>
         </div>
-        
-        
+
+
         <!--Coord. System, Touchplate dims-->
         <div role="tabpanel" class="tab-pane" id="settings">
           <div class="settings-overlay">
@@ -1403,7 +1403,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
                 <div id="fr" class="input-group-addon">mm/min</div>
               </div>
             </div>
-    
+
             <div style="width:50%;display:inline-block;">
               <div style="text-align:left;">Coordinate System</div>
               <select style="width:100px;" class="input-small form-control coord-sel">
@@ -1420,7 +1420,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
                 <option value="G92">G92</option> <!-- don't do this -->
               </select>
             </div>
-    
+
             <div style="width:10%;padding-left:10px;display:inline-block;">
               <div style="text-align:left;">Units</div>
               <select style="width:120px;" class="input-small form-control unit-sel">
@@ -1428,7 +1428,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
                 <option value="G20">Inches</option>
               </select>
             </div>
-    
+
             <div style="width:50%;display:table-col;">
               <div style="text-align:left;">Bit Diameter</div>
               <div class="input-group">
@@ -1436,7 +1436,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
                 <div class="input-group-addon">mm</div>
               </div>
             </div>
-    
+
             <div style="width:50%;display:table-col;">
               <div style="text-align:left;">Plate height [Z]</div>
               <div class="input-group">
@@ -1444,7 +1444,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
                 <div class="input-group-addon">mm</div>
               </div>
             </div>
-          </div>
           </div>
           <div style="width:40%;display:table-col;">
             <div style="text-align:right;">Plate width [X]</div>
@@ -1460,26 +1459,27 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
               <div class="input-group-addon">mm</div>
             </div>
           </div>
-          </div>
-        <!--Link to tutorial video-->
-        <div role="tabpanel" class="tab-pane" id="tutorial">
-          
-        </div>
-        
-        <div role="tabpanel" class="tab-pane" id="settings">
-          
         </div>
       </div>
+      <!--Link to tutorial video-->
+      <div role="tabpanel" class="tab-pane" id="tutorial">
 
       </div>
-      <div class="panel-footer hidden">
-        <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+
+      <div role="tabpanel" class="tab-pane" id="settings">
+
       </div>
     </div>
-    <div id="test-serial-port"></div>
-    <div id="test-tinyg"></div>
-    <div id="test-console"></div>
-    <div id="test-axes"></div>
+
+  </div>
+  <div class="panel-footer hidden">
+    <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+  </div>
+  </div>
+  <div id="test-serial-port"></div>
+  <div id="test-tinyg"></div>
+  <div id="test-console"></div>
+  <div id="test-axes"></div>
 
 </body>
 
