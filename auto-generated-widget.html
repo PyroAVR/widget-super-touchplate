@@ -188,10 +188,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         e.preventDefault()
         $(this).tab('show')
       });
-      $('li a #tutorialActivate').click(function (e)  {
-        e.preventDefault();
-        $('#tutorialModal').show();
-      })
+      // $('li a #tutorialActivate').click(function (e)  {
+      //   e.preventDefault();
+      //   $('#tutorialModal').show();
+      // })
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
@@ -1375,7 +1375,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
         <li role="presentation"><a id='tutorialActivate' href="#tutorial" aria-controls="tutorial" role="tab" data-toggle="modal" data-target="#tutorialModal">Tutorial</a></li>
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorialModal">Launch demo modal</button>
       </ul>
 
     </div>
