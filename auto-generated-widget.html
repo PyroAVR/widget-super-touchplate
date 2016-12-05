@@ -143,6 +143,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     init: function() {
 
       this.init3d();
+      this.initUI();
       this.setupUiFromLocalStorage();
       this.btnSetup();
       //this.setupPortList();
@@ -177,24 +178,16 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     touchplate: null, // threejs group
     spindle: null, // threejs group
     light: null, // threejs light
-    init3d: function() {
-      // init the threejs stuff
-      this.width = $('#com-chilipeppr-widget-super-touchplate .panel-body').width();
-      this.height = $('#com-chilipeppr-widget-super-touchplate .panel-body').height();
-
-      this.load(this.threeObj);
-      //this.setSize( window.innerWidth, window.innerHeight );
-      console.log("scene width:", this.width, "height:", this.height);
-      this.setSize(this.width, this.height);
-      //this.setSize( 140, 200);
-      //this.scene.position.setX(width * -0.045);
-      //this.play();
-      $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
-      $(window).resize(this.onresize.bind(this));
+    initUI: function()  {
       // setup run buttons
       $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      //Tabs
+      $('#main a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      });
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
@@ -228,6 +221,21 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //One special case!
         $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
       });
+    },
+    init3d: function() {
+      // init the threejs stuff
+      this.width = $('#com-chilipeppr-widget-super-touchplate .panel-body').width();
+      this.height = $('#com-chilipeppr-widget-super-touchplate .panel-body').height();
+
+      this.load(this.threeObj);
+      //this.setSize( window.innerWidth, window.innerHeight );
+      console.log("scene width:", this.width, "height:", this.height);
+      this.setSize(this.width, this.height);
+      //this.setSize( 140, 200);
+      //this.scene.position.setX(width * -0.045);
+      //this.play();
+      $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
+      $(window).resize(this.onresize.bind(this));
       // run intro anim
       this.introAnim();
     },
@@ -293,23 +301,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
-    /* //this pointer corruption is killing me.  Appended to .change of unit-sel object. see this.init3D
-    convertToIn: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam * 25.4;
-      newPlateHeight = currPlateHeight * 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },
-    convertToMM: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam / 25.4;
-      newPlateHeight = currPlateHeight / 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },*/
     runZAxis: function() {
       this.isRunning = true;
       console.log("Starting Z-probing operation");
