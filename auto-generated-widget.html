@@ -184,7 +184,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
       $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
       //Tabs
-      $('#main a').click(function (e) {
+      $('li a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
       });
