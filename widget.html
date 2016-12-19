@@ -77,9 +77,17 @@
             <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
 
             <p>
-              <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
-              <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
-              <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+              <div class='row container-fluid'>
+                <div class='col-md-4'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
+                </div>
+                <div class='col-md-4'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
+                </div>
+                <div class='col-md-4'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+                </div>
+              </div>
             </p>
           </div>
         </div>
@@ -136,57 +144,61 @@
                 <div class="input-group-addon">mm</div>
               </div>
             </div>
-          </div>
-          <div style="width:40%;display:table-col;">
-            <div style="text-align:right;">Plate width [X]</div>
-            <div class="input-group">
-              <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-              <div class="input-group-addon">mm</div>
+            <div style="width:40%;display:table-col;">
+              <div style="text-align:right;">Plate width [X]</div>
+              <div class="input-group">
+                <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                <div class="input-group-addon">mm</div>
+              </div>
             </div>
-          </div>
-          <div style="width:40%;display:table-col;">
-            <div style="text-align:right;">Plate length [Y]</div>
-            <div class="input-group">
-              <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-              <div class="input-group-addon">mm</div>
-            </div>
-            </di>v
-          </div>
-        </div>
-        <!--Link to tutorial video-->
-        <div role="tabpanel" class="tab-pane" id="tutorial">
-          <p style="text-align:center;">Not sure how to use this widget? A tutorial has been made to explain it!</p>
-          <!-- Button trigger modal -->
-          <button type="button" style="text-align:center;" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorialModal">Show Tutorial</button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+            <div style="width:40%;display:table-col;">
+              <div style="text-align:right;">Plate length [Y]</div>
+              <div class="input-group">
+                <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                <div class="input-group-addon">mm</div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="panel-footer hidden">
-        <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+        
+    <!--Link to tutorial video-->
+    <div role="tabpanel" class="tab-pane" id="tutorial">
+      <p style="text-align:center;">Not sure how to use this widget? A tutorial has been made to explain it!</p>
+      <!-- Button trigger modal -->
+      <button type="button" style="text-align:center;" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorialModal">Show Tutorial</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Tutorial Video</h4>
+            </div>
+            <div class="modal-body">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/selfqln0O4A" frameborder="0" allowfullscreen></iframe>
+              <div>
+                <h3>Changes</h3>
+                <p>Due to the increased number of options, a 'Settings' tab was created which now contains all of the boxes changing settings. Everything still functions as expected!</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="test-serial-port"></div>
-    <div id="test-tinyg"></div>
-    <div id="test-console"></div>
-    <div id="test-axes"></div>
+  </div>
+  <div class="panel-footer hidden">
+    <textarea id="com-chilipeppr-widget-touchplate-status" class="widget-status form-control" rows="3"></textarea>
+  </div>
+  </div>
+  <div id="test-serial-port"></div>
+  <div id="test-tinyg"></div>
+  <div id="test-console"></div>
+  <div id="test-axes"></div>
 
 </body>
 
