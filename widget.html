@@ -77,14 +77,14 @@
             <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
 
             <p>
-              <div class='row container-fluid'>
-                <div class='col-lg-4'>
+              <div class='container-fluid'>
+                <div class='row'>
                   <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
                 </div>
-                <div class='col-lg-4'>
+                <div class='row'>
                   <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
                 </div>
-                <div class='col-lg-4'>
+                <div class='row'>
                   <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
                 </div>
               </div>
@@ -96,46 +96,85 @@
         <!--Coord. System, Touchplate dims-->
         <div role="tabpanel" class="tab-pane" id="settings">
           <div class="settings-overlay">
-            <div style="width:50%;display:table-col;">
-              <div style="text-align:left;">Feedrate to Probe</div>
-              <div class="input-group">
-                <input style="width:200px;" class="form-control frprobe" type="number" placeholder="0.00" value="25" />
-                <div id="fr" class="input-group-addon">mm/min</div>
+
+            <div class='container-fluid'>
+              <!--Row 1: Feedrate, Bit diam.-->
+              <div class='row'>
+
+                <div class='col-lg-6'>
+
+                  <div style="width:50%;display:table-col;">
+                    <div style="text-align:left;">Feedrate to Probe</div>
+                    <div class="input-group">
+                      <input style="width:200px;" class="form-control frprobe" type="number" placeholder="0.00" value="25" />
+                      <div id="fr" class="input-group-addon">mm/min</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class='col-lg-6'>
+
+                  <div style="width:50%;display:table-col;">
+                    <div style="text-align:left;">Bit Diameter</div>
+                    <div class="input-group">
+                      <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
+                      <div class="input-group-addon">mm</div>
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
+
+              <!--Row 2, stuff-->
+              <div class='row'>
+
+                <div class='col-lg-6'>
+
+                  <div style="text-align:left;">Coordinate System</div>
+                  <select style="width:100px;" class="input-small form-control coord-sel">
+                    <option value="G53">G53</option>
+                    <option value="G54">G54</option>
+                    <option value="G55">G55</option>
+                    <option value="G56">G56</option>
+                    <option value="G57">G57</option>
+                    <option value="G58">G58</option>
+                    <option value="G59">G59</option>
+                    <option value="G59.1">G59.1</option>
+                    <option value="G59.2">G59.2</option>
+                    <option value="G59.3">G59.3</option>
+                    <option value="G92">G92</option> <!-- don't do this -->
+                </select>
+
+                </div>
+
+                <div class='col-lg-6'>
+
+                  <div style="text-align:left;">Units</div>
+                  <select style="width:120px;" class="input-small form-control unit-sel">
+                    <option value="G21">Millimeters</option>
+                    <option value="G20">Inches</option>
+                  </select>
+
+                </div>
+
+              </div>
+
             </div>
 
+
+
+
             <div style="width:50%;display:inline-block;">
-              <div style="text-align:left;">Coordinate System</div>
-              <select style="width:100px;" class="input-small form-control coord-sel">
-                <option value="G53">G53</option>
-                <option value="G54">G54</option>
-                <option value="G55">G55</option>
-                <option value="G56">G56</option>
-                <option value="G57">G57</option>
-                <option value="G58">G58</option>
-                <option value="G59">G59</option>
-                <option value="G59.1">G59.1</option>
-                <option value="G59.2">G59.2</option>
-                <option value="G59.3">G59.3</option>
-                <option value="G92">G92</option> <!-- don't do this -->
-              </select>
+
             </div>
 
             <div style="width:10%;padding-left:10px;display:inline-block;">
-              <div style="text-align:left;">Units</div>
-              <select style="width:120px;" class="input-small form-control unit-sel">
-                <option value="G21">Millimeters</option>
-                <option value="G20">Inches</option>
-              </select>
+
             </div>
 
-            <div style="width:50%;display:table-col;">
-              <div style="text-align:left;">Bit Diameter</div>
-              <div class="input-group">
-                <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
-                <div class="input-group-addon">mm</div>
-              </div>
-            </div>
+
 
             <div style="width:50%;display:table-col;">
               <div style="text-align:left;">Plate height [Z]</div>
