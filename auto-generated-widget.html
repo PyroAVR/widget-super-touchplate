@@ -197,27 +197,41 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
         unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
         unitSystemName = "";
+        
         if (unitSystem == "G20") {
-          unitSystemName = "in";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          unitSystemName  = "in";
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateDepth  = $('#com-chilipeppr-widget-super-touchplate .depthplate').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam / 25.4;
-          newPlateHeight = currPlateHeight / 25.4;
-          newFRate = currFRate / 25.4;
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam     / 25.4;
+          newPlateWidth   = currPlateWidth  / 25.4;
+          newPlateDepth   = currPlateDepth  / 25.4;
+          newPlateHeight  = currPlateHeight / 25.4;
+          newFRate        = currFRate       / 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .depthplate').val(newPlateDepth);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
           $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
         }
+        
         if (unitSystem == "G21") {
           unitSystemName = "mm";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateDepth  = $('#com-chilipeppr-widget-super-touchplate .depthplate').val();
           currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam * 25.4;
-          newPlateHeight = currPlateHeight * 25.4;
-          newFRate = currFRate * 25.4;
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam     * 25.4;
+          newPlateWidth   = currPlateWidth  * 25.4;
+          newPlateDepth   = currPlateDepth  * 25.4;
+          newPlateHeight  = currPlateHeight * 25.4;
+          newFRate        = currFRate       * 25.4;
           $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .depthplate').val(newPlateDepth);
           $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
           $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
         }
