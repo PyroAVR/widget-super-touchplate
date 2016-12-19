@@ -704,8 +704,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     animInfinite: function() {
       if (this.runningAxis == "x") {
-        this.spindle.position.setX(this.spindle.position.x - 0.3);
-        if (this.spindle.position.x < -5) {
+        this.spindle.position.setX(this.spindle.position.x + 0.3);
+        if (this.spindle.position.x > 5) {
           this.spindle.position.setX(0);
         }
         this.animate();
