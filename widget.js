@@ -564,7 +564,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "x") {
-        var plateWidth = Number($('#com-chilipeppr-widget-super-touchplate .widthplate').val());
+        var plateWidth = -1 * Number($('#com-chilipeppr-widget-super-touchplate .widthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
         if (isNaN(plateWidth)) plateWidth = 0;
@@ -597,7 +597,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "y") {
-        var plateLength = Number($('com-chilipeppr-widget-super-touchplate .lengthplate').val());
+        var plateLength = -1 * Number($('com-chilipeppr-widget-super-touchplate .lengthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
         if (isNaN(plateLength)) plateLength = 0;
