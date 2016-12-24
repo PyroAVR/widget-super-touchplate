@@ -89,6 +89,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     init: function() {
       console.log("STARTING TOUCHPLATE");
       this.init3d();
+      this.initUI();
       this.setupUiFromLocalStorage();
       this.btnSetup();
       //this.setupPortList();
@@ -123,6 +124,68 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     touchplate: null, // threejs group
     spindle: null, // threejs group
     light: null, // threejs light
+    initUI: function()  {
+      // setup run buttons
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      //Tabs
+      $('li a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      });
+      $('li a #tutorialActivate').click(function (e)  {
+        e.preventDefault();
+        $('#tutorialModal').show();
+      })
+      //Now that we support multiple units, setup input-group-addons
+      //When the units change, update the input-group-addons to reflect that change
+      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
+        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        unitSystemName = "";
+        
+        if (unitSystem == "G20") {
+          unitSystemName  = "in";
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateLength = $('#com-chilipeppr-widget-super-touchplate .lengthplate').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam       / 25.4;
+          newPlateWidth   = currPlateWidth    / 25.4;
+          newPlateLength  = currPlateLength   / 25.4;
+          newPlateHeight  = currPlateHeight   / 25.4;
+          newFRate        = currFRate         / 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .lengthplate').val(newPlateLength);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
+        }
+        
+        if (unitSystem == "G21") {
+          unitSystemName = "mm";
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateLength = $('#com-chilipeppr-widget-super-touchplate .lengthplate').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam       * 25.4;
+          newPlateWidth   = currPlateWidth    * 25.4;
+          newPlateLength  = currPlateLength   * 25.4;
+          newPlateHeight  = currPlateHeight   * 25.4;
+          newFRate        = currFRate         * 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .lengthplate').val(newPlateLength);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
+        }
+        $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
+        //One special case!
+        $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
+      });
+    },
     init3d: function() {
       // init the threejs stuff
       this.width = $('#com-chilipeppr-widget-super-touchplate .panel-body').width();
@@ -137,43 +200,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //this.play();
       $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
       $(window).resize(this.onresize.bind(this));
-      // setup run buttons
-      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
-      //Now that we support multiple units, setup input-group-addons
-      //When the units change, update the input-group-addons to reflect that change
-      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
-        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
-        unitSystemName = "";
-        if (unitSystem == "G20") {
-          unitSystemName = "in";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam / 25.4;
-          newPlateHeight = currPlateHeight / 25.4;
-          newFRate = currFRate / 25.4;
-          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
-        }
-        if (unitSystem == "G21") {
-          unitSystemName = "mm";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam * 25.4;
-          newPlateHeight = currPlateHeight * 25.4;
-          newFRate = currFRate * 25.4;
-          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
-        }
-        $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
-        //One special case!
-        $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
-      });
       // run intro anim
       this.introAnim();
     },
@@ -239,23 +265,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
-    /* //this pointer corruption is killing me.  Appended to .change of unit-sel object. see this.init3D
-    convertToIn: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam * 25.4;
-      newPlateHeight = currPlateHeight * 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },
-    convertToMM: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam / 25.4;
-      newPlateHeight = currPlateHeight / 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },*/
     runZAxis: function() {
       this.isRunning = true;
       console.log("Starting Z-probing operation");
@@ -555,9 +564,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "x") {
-        var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+        var plateWidth = -1 * Number($('#com-chilipeppr-widget-super-touchplate .widthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
+        var xoffset = br + plateWidth;
         if (isNaN(plateWidth)) plateWidth = 0;
         if (isNaN(br)) br = 0;
         console.log("plateWidth:", plateWidth);
@@ -565,13 +575,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 X" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 X" + br + "\n";
+          gcode = "G28.3 X" + xoffset + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 X" + br + "\n";
+          var gcode = "G92 X" + xoffset + "\n";
         }
         else {
-          var gcode = "G10 L20 P" + this.coordOffsetNo + " X" + br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " X" + xoffset + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -588,9 +598,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "y") {
-        var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
+        var plateLength = -1 * Number($('#com-chilipeppr-widget-super-touchplate .lengthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
+        var yoffset = br + plateLength;
         if (isNaN(plateLength)) plateLength = 0;
         if (isNaN(br)) br = 0;
         console.log("platLength:", plateLength);
@@ -598,13 +609,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 Y" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 Y" + br + "\n";
+          gcode = "G28.3 Y" + yoffset + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 Y" + br + "\n";
+          var gcode = "G92 Y" + yoffset +  "\n";
         }
         else {
-          var gcode = "G10 L20 P" + this.coordOffsetNo + " Y" + br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " Y" + yoffset + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -641,8 +652,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     animInfinite: function() {
       if (this.runningAxis == "x") {
-        this.spindle.position.setX(this.spindle.position.x - 0.3);
-        if (this.spindle.position.x < -5) {
+        this.spindle.position.setX(this.spindle.position.x + 0.3);
+        if (this.spindle.position.x > 5) {
           this.spindle.position.setX(0);
         }
         this.animate();

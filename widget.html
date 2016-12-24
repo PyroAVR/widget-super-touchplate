@@ -35,6 +35,7 @@
 
 <body>
   <div id="com-chilipeppr-widget-super-touchplate" class="panel panel-default">
+    <!--Title and collapse/fork dropdowns-->
     <div class="panel-heading">
       <div class="btn-toolbar pull-right" role="toolbar">
 
@@ -56,82 +57,178 @@
       </div>
       <span class="panel-title" data-toggle="popover">Super Touch Plate</span> <span style="font-size:9px;" class="fb-build"></span>
     </div>
+    <div>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li role="presentation"><a href="#tutorial" aria-controls="tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+      </ul>
+
+    </div>
     <div class="panel-body">
 
-      <div class="settings-overlay">
-        <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
+      <!-- Tab panes -->
+      <div class="tab-content">
 
-        <p>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
-        </p>
+        <!--Run buttons and cool animation-->
+        <div role="tabpanel" class="tab-pane active" id="main">
+          <div class="settings-overlay">
+            <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
 
-
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Feedrate to Probe</div>
-          <div class="input-group">
-            <input style="width:200px;" class="form-control frprobe" type="number" placeholder="0.00" value="25" />
-            <div id="fr" class="input-group-addon">mm/min</div>
+            <p>
+              <div class='container-fluid' style='padding-left:20%;padding-top:10%'>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
+                </div>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
+                </div>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+                </div>
+              </div>
+            </p>
           </div>
         </div>
 
-        <div style="width:50%;display:inline-block;">
-          <div style="text-align:left;">Coordinate System</div>
-          <select style="width:100px;" class="input-small form-control coord-sel">
-            <option value="G53">G53</option>
-            <option value="G54">G54</option>
-            <option value="G55">G55</option>
-            <option value="G56">G56</option>
-            <option value="G57">G57</option>
-            <option value="G58">G58</option>
-            <option value="G59">G59</option>
-            <option value="G59.1">G59.1</option>
-            <option value="G59.2">G59.2</option>
-            <option value="G59.3">G59.3</option>
-            <option value="G92">G92</option> <!-- don't do this -->
-          </select>
+
+        <!--Coord. System, Touchplate dims-->
+        <div role="tabpanel" class="tab-pane" id="settings">
+          <div class="settings-overlay">
+            <div class='container-fluid'>
+
+              <div class='well'>
+
+                <div class='container-fluid'>
+                  <!--Row 1: Feedrate, Bit diam.-->
+                  <div class='row'>
+
+                    <div class='col-sm-6'>
+
+                      <div style="display:table-col;">
+                        <div style="text-align:left;">Feedrate to Probe</div>
+                        <div class="input-group">
+                          <input class="form-control frprobe" type="number" placeholder="0.00" value="25" />
+                          <div id="fr" class="input-group-addon">mm/min</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-sm-6'>
+
+                      <div style="display:table-col;">
+                        <div style="text-align:left;">Bit Diameter</div>
+                        <div class="input-group">
+                          <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <!--Row 2: Coordinates, Units-->
+                  <div class='row'>
+
+                    <div class='col-xs-6'>
+
+                      <div style="text-align:left;">Coordinate System</div>
+                      <select style="width:100px;" class="input-small form-control coord-sel">
+                    <option value="G53">G53</option>
+                    <option value="G54">G54</option>
+                    <option value="G55">G55</option>
+                    <option value="G56">G56</option>
+                    <option value="G57">G57</option>
+                    <option value="G58">G58</option>
+                    <option value="G59">G59</option>
+                    <option value="G59.1">G59.1</option>
+                    <option value="G59.2">G59.2</option>
+                    <option value="G59.3">G59.3</option>
+                    <option value="G92">G92</option> <!-- don't do this -->
+                </select>
+
+                    </div>
+
+                    <div class='col-xs-6'>
+
+                      <div style="text-align:left;">Units</div>
+                      <select style="width:120px;" class="input-small form-control unit-sel">
+                    <option value="G21">Millimeters</option>
+                    <option value="G20">Inches</option>
+                  </select>
+
+                    </div>
+
+                  </div>
+
+                  <!--Row 3: Offsets-->
+                  <div class='row'>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate width [X]</div>
+                        <div class="input-group">
+                          <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate length [Y]</div>
+                        <div class="input-group">
+                          <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate height [Z]</div>
+                        <div class="input-group">
+                          <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
         </div>
 
-        <div style="width:10%;padding-left:10px;display:inline-block;">
-          <div style="text-align:left;">Units</div>
-          <select style="width:120px;" class="input-small form-control unit-sel">
-            <option value="G21">Millimeters</option>
-            <option value="G20">Inches</option>
-          </select>
-        </div>
+        <!--Link to tutorial video-->
+        <div role="tabpanel" class="tab-pane" id="tutorial">
+          <div class='settings-overlay'>
+              <div class='well' style='text-align:center;'>
 
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Bit Diameter</div>
-          <div class="input-group">
-            <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
+                <p>Not sure how to use this widget? A tutorial has been made to explain it!</p>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorialModal">Show Tutorial</button>
 
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Plate height [Z]</div>
-          <div class="input-group">
-            <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-          <!--
-        </div>
-        <div style="width:40%;display:table-col;">
-          <div style="text-align:right;">Plate width [X]</div>
-          <div class="input-group">
-            <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
-        <div style="width:40%;display:table-col;">
-          <div style="text-align:right;">Plate length [Y]</div>
-          <div class="input-group">
-            <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
-        -->
+              </div>
+            </div>
+
         </div>
 
       </div>
@@ -144,6 +241,31 @@
     <div id="test-console"></div>
     <div id="test-axes"></div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Tutorial Video</h4>
+          </div>
+          <div class="modal-body">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/selfqln0O4A" frameborder="0" allowfullscreen></iframe>
+            <div>
+              <h3>Changes</h3>
+              <ul>
+                <li>The widget is now composed of several tabs, all of which share the functionality of the previous version. It was unmanageably large with the new options without this layout.</li>
+                <li>You can now set an offset in X and Y directions as well! This allows for error in touchplate construction!</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 
 </html>

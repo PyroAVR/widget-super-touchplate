@@ -24,7 +24,7 @@
 #com-chilipeppr-widget-super-touchplate .settings-overlay {
   position: absolute;
   top: 10px;
-  left: 30%;
+  left: 10px;
   bottom: 10px;
   right: 10px;
   border: 0px solid red;
@@ -143,6 +143,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     init: function() {
       console.log("STARTING TOUCHPLATE");
       this.init3d();
+      this.initUI();
       this.setupUiFromLocalStorage();
       this.btnSetup();
       //this.setupPortList();
@@ -177,6 +178,68 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     touchplate: null, // threejs group
     spindle: null, // threejs group
     light: null, // threejs light
+    initUI: function()  {
+      // setup run buttons
+      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
+      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
+      //Tabs
+      $('li a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      });
+      $('li a #tutorialActivate').click(function (e)  {
+        e.preventDefault();
+        $('#tutorialModal').show();
+      })
+      //Now that we support multiple units, setup input-group-addons
+      //When the units change, update the input-group-addons to reflect that change
+      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
+        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
+        unitSystemName = "";
+        
+        if (unitSystem == "G20") {
+          unitSystemName  = "in";
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateLength = $('#com-chilipeppr-widget-super-touchplate .lengthplate').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam       / 25.4;
+          newPlateWidth   = currPlateWidth    / 25.4;
+          newPlateLength  = currPlateLength   / 25.4;
+          newPlateHeight  = currPlateHeight   / 25.4;
+          newFRate        = currFRate         / 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .lengthplate').val(newPlateLength);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
+        }
+        
+        if (unitSystem == "G21") {
+          unitSystemName = "mm";
+          currBitDiam     = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
+          currPlateWidth  = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+          currPlateLength = $('#com-chilipeppr-widget-super-touchplate .lengthplate').val();
+          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
+          currFRate       = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
+          newBitDiam      = currBitDiam       * 25.4;
+          newPlateWidth   = currPlateWidth    * 25.4;
+          newPlateLength  = currPlateLength   * 25.4;
+          newPlateHeight  = currPlateHeight   * 25.4;
+          newFRate        = currFRate         * 25.4;
+          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
+          $('#com-chilipeppr-widget-super-touchplate .widthplate').val(newPlateWidth);
+          $('#com-chilipeppr-widget-super-touchplate .lengthplate').val(newPlateLength);
+          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
+          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
+        }
+        $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
+        //One special case!
+        $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
+      });
+    },
     init3d: function() {
       // init the threejs stuff
       this.width = $('#com-chilipeppr-widget-super-touchplate .panel-body').width();
@@ -191,43 +254,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       //this.play();
       $('#com-chilipeppr-widget-super-touchplate .panel-body').prepend(this.dom);
       $(window).resize(this.onresize.bind(this));
-      // setup run buttons
-      $('#com-chilipeppr-widget-super-touchplate .btn-Zplaterun').click(this.onRun.bind(this, "z"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Xplaterun').click(this.onRun.bind(this, "x"));
-      $('#com-chilipeppr-widget-super-touchplate .btn-Yplaterun').click(this.onRun.bind(this, "y"));
-      //Now that we support multiple units, setup input-group-addons
-      //When the units change, update the input-group-addons to reflect that change
-      $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
-        unitSystem = $('#com-chilipeppr-widget-super-touchplate .unit-sel').val();
-        unitSystemName = "";
-        if (unitSystem == "G20") {
-          unitSystemName = "in";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam / 25.4;
-          newPlateHeight = currPlateHeight / 25.4;
-          newFRate = currFRate / 25.4;
-          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
-        }
-        if (unitSystem == "G21") {
-          unitSystemName = "mm";
-          currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-          currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-          currFRate = $('#com-chilipeppr-widget-super-touchplate .frprobe').val();
-          newBitDiam = currBitDiam * 25.4;
-          newPlateHeight = currPlateHeight * 25.4;
-          newFRate = currFRate * 25.4;
-          $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-          $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-          $('#com-chilipeppr-widget-super-touchplate .frprobe').val(newFRate);
-        }
-        $('#com-chilipeppr-widget-super-touchplate .input-group-addon').text(unitSystemName);
-        //One special case!
-        $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
-      });
       // run intro anim
       this.introAnim();
     },
@@ -293,23 +319,6 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     gcodeCtr: 0,
     isRunning: false,
-    /* //this pointer corruption is killing me.  Appended to .change of unit-sel object. see this.init3D
-    convertToIn: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam * 25.4;
-      newPlateHeight = currPlateHeight * 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },
-    convertToMM: function() {
-      currBitDiam = $('#com-chilipeppr-widget-super-touchplate .diameter').val();
-      currPlateHeight = $('#com-chilipeppr-widget-super-touchplate .heightplate').val();
-      newBitDiam = currBitDiam / 25.4;
-      newPlateHeight = currPlateHeight / 25.4;
-      $('#com-chilipeppr-widget-super-touchplate .diameter').val(newBitDiam);
-      $('#com-chilipeppr-widget-super-touchplate .heightplate').val(newPlateHeight);
-    },*/
     runZAxis: function() {
       this.isRunning = true;
       console.log("Starting Z-probing operation");
@@ -609,9 +618,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "x") {
-        var plateWidth = $('#com-chilipeppr-widget-super-touchplate .widthplate').val();
+        var plateWidth = -1 * Number($('#com-chilipeppr-widget-super-touchplate .widthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
+        var xoffset = br + plateWidth;
         if (isNaN(plateWidth)) plateWidth = 0;
         if (isNaN(br)) br = 0;
         console.log("plateWidth:", plateWidth);
@@ -619,13 +629,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 X" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 X" + br + "\n";
+          gcode = "G28.3 X" + xoffset + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 X" + br + "\n";
+          var gcode = "G92 X" + xoffset + "\n";
         }
         else {
-          var gcode = "G10 L20 P" + this.coordOffsetNo + " X" + br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " X" + xoffset + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -642,9 +652,10 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         });
       }
       if (this.runningAxis == "y") {
-        var plateLength = $('com-chilipeppr-widget-super-touchplate .lengthplate').val();
+        var plateLength = -1 * Number($('#com-chilipeppr-widget-super-touchplate .lengthplate').val());
         //Need to offset X and Y by bit diameter so that bit center will be at desired origin when G0 X0 Y0 Z0 is run.
         var br = Number($('#com-chilipeppr-widget-super-touchplate .diameter').val()) / 2*-1;
+        var yoffset = br + plateLength;
         if (isNaN(plateLength)) plateLength = 0;
         if (isNaN(br)) br = 0;
         console.log("platLength:", plateLength);
@@ -652,13 +663,13 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //var gcode = "G28.3 Y" + br + "\n";
         var gcode = "";
         if(this.coordOffsetNo == 0) {
-          gcode = "G28.3 Y" + br + "\n";
+          gcode = "G28.3 Y" + yoffset + "\n";
         }
         else if (this.coordOffsetNo == 10) { //Allowing G92
-          var gcode = "G92 Y" + br + "\n";
+          var gcode = "G92 Y" + yoffset +  "\n";
         }
         else {
-          var gcode = "G10 L20 P" + this.coordOffsetNo + " Y" + br + "\n";
+          var gcode = "G10 L20 P" + this.coordOffsetNo + " Y" + yoffset + "\n";
         }
         var id = "tp" + this.gcodeCtr++;
         chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
@@ -695,8 +706,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     animInfinite: function() {
       if (this.runningAxis == "x") {
-        this.spindle.position.setX(this.spindle.position.x - 0.3);
-        if (this.spindle.position.x < -5) {
+        this.spindle.position.setX(this.spindle.position.x + 0.3);
+        if (this.spindle.position.x > 5) {
           this.spindle.position.setX(0);
         }
         this.animate();
@@ -1351,6 +1362,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
 
 <body>
   <div id="com-chilipeppr-widget-super-touchplate" class="panel panel-default">
+    <!--Title and collapse/fork dropdowns-->
     <div class="panel-heading">
       <div class="btn-toolbar pull-right" role="toolbar">
 
@@ -1372,82 +1384,178 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
       </div>
       <span class="panel-title" data-toggle="popover">Super Touch Plate</span> <span style="font-size:9px;" class="fb-build"></span>
     </div>
+    <div>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
+        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li role="presentation"><a href="#tutorial" aria-controls="tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+      </ul>
+
+    </div>
     <div class="panel-body">
 
-      <div class="settings-overlay">
-        <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
+      <!-- Tab panes -->
+      <div class="tab-content">
 
-        <p>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
-          <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
-        </p>
+        <!--Run buttons and cool animation-->
+        <div role="tabpanel" class="tab-pane active" id="main">
+          <div class="settings-overlay">
+            <!-- <div style="position:absolute;border:1px solid green;height:100%;"> -->
 
-
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Feedrate to Probe</div>
-          <div class="input-group">
-            <input style="width:200px;" class="form-control frprobe" type="number" placeholder="0.00" value="25" />
-            <div id="fr" class="input-group-addon">mm/min</div>
+            <p>
+              <div class='container-fluid' style='padding-left:20%;padding-top:10%'>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
+                </div>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
+                </div>
+                <div class='row' style='padding-bottom: 5%;'>
+                  <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+                </div>
+              </div>
+            </p>
           </div>
         </div>
 
-        <div style="width:50%;display:inline-block;">
-          <div style="text-align:left;">Coordinate System</div>
-          <select style="width:100px;" class="input-small form-control coord-sel">
-            <option value="G53">G53</option>
-            <option value="G54">G54</option>
-            <option value="G55">G55</option>
-            <option value="G56">G56</option>
-            <option value="G57">G57</option>
-            <option value="G58">G58</option>
-            <option value="G59">G59</option>
-            <option value="G59.1">G59.1</option>
-            <option value="G59.2">G59.2</option>
-            <option value="G59.3">G59.3</option>
-            <option value="G92">G92</option> <!-- don't do this -->
-          </select>
+
+        <!--Coord. System, Touchplate dims-->
+        <div role="tabpanel" class="tab-pane" id="settings">
+          <div class="settings-overlay">
+            <div class='container-fluid'>
+
+              <div class='well'>
+
+                <div class='container-fluid'>
+                  <!--Row 1: Feedrate, Bit diam.-->
+                  <div class='row'>
+
+                    <div class='col-sm-6'>
+
+                      <div style="display:table-col;">
+                        <div style="text-align:left;">Feedrate to Probe</div>
+                        <div class="input-group">
+                          <input class="form-control frprobe" type="number" placeholder="0.00" value="25" />
+                          <div id="fr" class="input-group-addon">mm/min</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-sm-6'>
+
+                      <div style="display:table-col;">
+                        <div style="text-align:left;">Bit Diameter</div>
+                        <div class="input-group">
+                          <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <!--Row 2: Coordinates, Units-->
+                  <div class='row'>
+
+                    <div class='col-xs-6'>
+
+                      <div style="text-align:left;">Coordinate System</div>
+                      <select style="width:100px;" class="input-small form-control coord-sel">
+                    <option value="G53">G53</option>
+                    <option value="G54">G54</option>
+                    <option value="G55">G55</option>
+                    <option value="G56">G56</option>
+                    <option value="G57">G57</option>
+                    <option value="G58">G58</option>
+                    <option value="G59">G59</option>
+                    <option value="G59.1">G59.1</option>
+                    <option value="G59.2">G59.2</option>
+                    <option value="G59.3">G59.3</option>
+                    <option value="G92">G92</option> <!-- don't do this -->
+                </select>
+
+                    </div>
+
+                    <div class='col-xs-6'>
+
+                      <div style="text-align:left;">Units</div>
+                      <select style="width:120px;" class="input-small form-control unit-sel">
+                    <option value="G21">Millimeters</option>
+                    <option value="G20">Inches</option>
+                  </select>
+
+                    </div>
+
+                  </div>
+
+                  <!--Row 3: Offsets-->
+                  <div class='row'>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate width [X]</div>
+                        <div class="input-group">
+                          <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate length [Y]</div>
+                        <div class="input-group">
+                          <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-xs-4 nopadding'>
+
+                      <div style="width:100%;display:table-col;">
+                        <div style="text-align:right;">Plate height [Z]</div>
+                        <div class="input-group">
+                          <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
+                          <div class="input-group-addon">mm</div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
         </div>
 
-        <div style="width:10%;padding-left:10px;display:inline-block;">
-          <div style="text-align:left;">Units</div>
-          <select style="width:120px;" class="input-small form-control unit-sel">
-            <option value="G21">Millimeters</option>
-            <option value="G20">Inches</option>
-          </select>
-        </div>
+        <!--Link to tutorial video-->
+        <div role="tabpanel" class="tab-pane" id="tutorial">
+          <div class='settings-overlay'>
+              <div class='well' style='text-align:center;'>
 
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Bit Diameter</div>
-          <div class="input-group">
-            <input class="form-control diameter" type="number" min="0" placeholder="0.00" value="3.175" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
+                <p>Not sure how to use this widget? A tutorial has been made to explain it!</p>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#tutorialModal">Show Tutorial</button>
 
-        <div style="width:50%;display:table-col;">
-          <div style="text-align:left;">Plate height [Z]</div>
-          <div class="input-group">
-            <input class="form-control heightplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-          <!--
-        </div>
-        <div style="width:40%;display:table-col;">
-          <div style="text-align:right;">Plate width [X]</div>
-          <div class="input-group">
-            <input class="form-control widthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
-        <div style="width:40%;display:table-col;">
-          <div style="text-align:right;">Plate length [Y]</div>
-          <div class="input-group">
-            <input class="form-control lengthplate" type="number" min="0" placeholder="0.00" value="1.75" />
-            <div class="input-group-addon">mm</div>
-          </div>
-        </div>
-        -->
+              </div>
+            </div>
+
         </div>
 
       </div>
@@ -1460,6 +1568,31 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     <div id="test-console"></div>
     <div id="test-axes"></div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Tutorial Video</h4>
+          </div>
+          <div class="modal-body">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/selfqln0O4A" frameborder="0" allowfullscreen></iframe>
+            <div>
+              <h3>Changes</h3>
+              <ul>
+                <li>The widget is now composed of several tabs, all of which share the functionality of the previous version. It was unmanageably large with the new options without this layout.</li>
+                <li>You can now set an offset in X and Y directions as well! This allows for error in touchplate construction!</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 
 </html>
