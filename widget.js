@@ -192,10 +192,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     transferViews: function() {
       if(this.isExpanded) {
-        $('#largeDisplayModal .modal-body').text('test');
+        $('#toExpanded').text("wat");
+        $('#largeDisplayModal').hide();
       }
       else  {
-        $('#toExpanded').text("wat");
+        $('#largeDisplayModal .modal-body').text('test');
+
       }
       this.isExpanded ^= 1;
     },
