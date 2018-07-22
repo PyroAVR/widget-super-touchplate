@@ -140,8 +140,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         $('#tutorialModal').show();
       })
       // Expanded view
-      $("#toExpanded").click(function() { console.log("opening big view");});//this.transferViews.bind(this));
-      $("#largeDisplayModal").on('hide.bs.modal', function()  {console.log("closing big view");}); //this.transferViews.bind(this));
+      $("#toExpanded").click(function(e) { $('#largeDisplayModal').innerHTML("hello world")});//this.transferViews.bind(this));
+      $("#largeDisplayModal").on('hide.bs.modal', function(e)  {console.log("closing big view");}); //this.transferViews.bind(this));
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
