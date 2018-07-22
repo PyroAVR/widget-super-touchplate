@@ -242,8 +242,34 @@
     <div id="test-axes"></div>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- Large display Modal -->
+    <div class="modal fade" id="largeDisplayModal" tabindex="-1" role="dialog" aria-labelledby="largeView">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Tutorial Video</h4>
+          </div>
+          <div class="modal-body">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/selfqln0O4A" frameborder="0" allowfullscreen></iframe>
+            <div>
+              <h3>Changes</h3>
+              <ul>
+                <li>The widget is now composed of several tabs, all of which share the functionality of the previous version. It was unmanageably large with the new options without this layout.</li>
+                <li>You can now set an offset in X and Y directions as well! This allows for error in touchplate construction!</li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="tutoralView">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
