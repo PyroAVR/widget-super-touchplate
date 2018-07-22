@@ -64,6 +64,7 @@
         <li role="presentation" class="active"><a href="#main" aria-controls="main" role="tab" data-toggle="tab">Controls</a></li>
         <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
         <li role="presentation"><a href="#tutorial" aria-controls="tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+        <li role="presentation"><a href="#expand" aria-controls="expand" role="tab" data-toggle="tab">E X P A N D</a></li>
       </ul>
 
     </div>
@@ -80,13 +81,13 @@
             <p>
               <div class='container-fluid' style='padding-left:20%;padding-top:10%'>
                 <div class='row' style='padding-bottom: 5%;'>
-                  <button type="button" class="btn xbtn-xs btn-primary btn-Zplaterun" style="width:30%;">Run Z</button>
+                  <button type="button" class="btn xbtn-xs btn-primary" id="Zplaterun" style="width:30%;">Run Z</button>
                 </div>
                 <div class='row' style='padding-bottom: 5%;'>
-                  <button type="button" class="btn xbtn-xs btn-primary btn-Xplaterun" style="width:30%;">Run X</button>
+                  <button type="button" class="btn xbtn-xs btn-primary" id="Xplaterun" style="width:30%;">Run X</button>
                 </div>
                 <div class='row' style='padding-bottom: 5%;'>
-                  <button type="button" class="btn xbtn-xs btn-primary btn-Yplaterun" style="width:30%;">Run Y</button>
+                  <button type="button" class="btn xbtn-xs btn-primary" id="Yplaterun" style="width:30%;">Run Y</button>
                 </div>
               </div>
             </p>
@@ -230,6 +231,17 @@
             </div>
 
         </div>
+        
+        <!--Expanded view -->
+        <div role="tabpanel" class="tab-pane" id="expand">
+          <div class='settings-overlay'>
+            <div class='well' style='text-align:center;'>
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#largeDisplayModal">E X P A N D</button>
+
+            </div>
+          </div>
+          
+        </div>
 
       </div>
       <div class="panel-footer hidden">
@@ -265,7 +277,6 @@
           </div>
         </div>
       </div>
-      
     </div>
 
     <!-- Tutorial Modal -->
