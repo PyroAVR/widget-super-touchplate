@@ -140,8 +140,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         $('#tutorialModal').show();
       })
       // Expanded view
-      $("#toExpanded").click(function(e) { $('#largeDisplayModal').html("hello world")});//this.transferViews.bind(this));
-      $("#largeDisplayModal").on('hide.bs.modal', function(e)  {console.log("closing big view");}); //this.transferViews.bind(this));
+      $("#toExpanded").click(function(e) { this.transferViews(); });//this.transferViews.bind(this));
+      $("#largeDisplayModal").on('hide.bs.modal', function(e)  { this.transferViews(); }); //this.transferViews.bind(this));
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
@@ -192,12 +192,12 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     },
     transferViews: function() {
       if(this.isExpanded) {
-        console.log("CONTRACTING");
+        $('#largeDisplayModal .modal-body').text('test');
       }
       else  {
-        console.log("EXPANDING");
+        $('#toExpanded').text("wat");
       }
-    
+      this.isExpanded ^= 1;
     },
     init3d: function() {
       // init the threejs stuff
