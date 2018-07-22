@@ -86,6 +86,7 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
     foreignPublish: {},
     foreignSubscribe: {},
     isInitted: false, // keep track of our one-time init
+    isExpanded: false,
     init: function() {
       console.log("STARTING TOUCHPLATE");
       this.init3d();
@@ -138,6 +139,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         e.preventDefault();
         $('#tutorialModal').show();
       })
+      // Expanded view
+      $("li a #expand").click(this.transferViews);
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
@@ -185,6 +188,15 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         //One special case!
         $('#com-chilipeppr-widget-super-touchplate #fr').text(unitSystemName + "/min");
       });
+    },
+    transferViews: function() {
+      if(this.isExpanded) {
+        console.log("CONTRACTING");
+      }
+      else  {
+        console.log("EXPANDING");
+      }
+    
     },
     init3d: function() {
       // init the threejs stuff
