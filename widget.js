@@ -140,7 +140,8 @@ cpdefine("inline:com-chilipeppr-widget-super-touchplate", ["chilipeppr_ready", '
         $('#tutorialModal').show();
       })
       // Expanded view
-      $("li a #expand").click(this.transferViews);
+      $("li a #toExpanded").click(this.transferViews.bind(this));
+      $("#largeDisplayModal .close").click(this.transferViews.bind(this));
       //Now that we support multiple units, setup input-group-addons
       //When the units change, update the input-group-addons to reflect that change
       $('#com-chilipeppr-widget-super-touchplate .unit-sel').change(function() {
